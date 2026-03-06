@@ -1,4 +1,4 @@
-# haiku_year
+# Haiku Year (俳句の年)
 This is a memorial application.
 I'm gonna collect my haku in one place so that there will be a haiku for each day of the year.
 
