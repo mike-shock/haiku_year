@@ -7,3 +7,4 @@ can be run to read today's haiku.
 
 I've got some photos and even short videos illustrating my haiku, but I'll not include 'em.
 
+Mike Shock
