@@ -1,16 +1,16 @@
 # File Names:
 
 haiku/			# text data files  
-    01/			# by months: from January...  
+&nbsp;    01/			# by months: from January...  
 ...  
-    12/			# ... to December  
-	12-01.txt	# by each day within a month: MM-DD.txt  
+&nbsp;    12/			# ... to December  
+&nbsp;	12-01.txt	# by each day within a month: MM-DD.txt  
 ...  
-	12-31.txt	# resulting version  
-	12-31_M.txt	# Mike's version: MM-DD_M.txt  
-	12-31_R.txt	# Ray's version:  MM-DD_R.txt  
-	12-31_1.txt	# translated haiku: MM-DD_N.txt  
-	12~31_0.txt	# draft version:  MM~DD_N.txt  
+&nbsp;	12-31.txt	# resulting version  
+&nbsp;	12-31_M.txt	# Mike's version: MM-DD_M.txt  
+&nbsp;	12-31_R.txt	# Ray's version:  MM-DD_R.txt  
+&nbsp;	12-31_1.txt	# translated haiku: MM-DD_N.txt  
+&nbsp;	12\~31_0.txt	# draft version:  MM\~DD_N.txt  
 
 # File Content:
 kami-no-ku  上の句 "upper phrase"\
