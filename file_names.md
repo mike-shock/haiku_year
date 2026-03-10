@@ -20,7 +20,7 @@ shimo-no-ku 下の句 "lower phrase"
 
 {DD.MM.YYYY}
 [Author]
-<comments>
+<comments: optional>
 
 
 
