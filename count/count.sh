@@ -1,5 +1,5 @@
 #!/bin/bash
-DATA=../year
+DATA=../haiku/year
 TOTAL=366
 NOW=`ls -R -1 $DATA/ | grep '[0-9][0-9]-[0-9][0-9].txt' | wc -l`
 ((LEFT=$TOTAL - $NOW))

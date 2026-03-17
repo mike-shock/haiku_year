@@ -1,6 +1,7 @@
 package haiku
 
 import (
+	"embed"
 	"errors"
 	"fmt"
 	"os"
@@ -11,7 +12,7 @@ import (
 )
 
 const (
-	HAIKU_PATH = "../year"
+	HAIKU_PATH = "year"
 	DRAFT      = iota
 	MIKE
 	RAY
@@ -34,6 +35,9 @@ var (
 	BadDelimiterError = errors.New("bad date delimiter")
 	TextMissingError  = errors.New("haiku text missing")
 )
+
+//go:embed year
+var haikuDir embed.FS
 
 func NewHaiku(date string) *Haiku {
 	ymd := strings.Split(date, "-")
@@ -78,6 +82,7 @@ func readHaiku(date string) (today []Haiku, err error) {
 		err = nil
 		file := fmt.Sprintf(variants[i], h.month, h.day)
 		filePath := filepath.Join(HAIKU_PATH, h.month, file)
+		//		filePath := filepath.Join(h.month, file)
 		t, err := readFile(filePath)
 		if err != nil {
 			continue
@@ -91,7 +96,8 @@ func readHaiku(date string) (today []Haiku, err error) {
 }
 
 func readFile(filePath string) (content string, err error) {
-	file, err := os.Open(filePath)
+	//	file, err := os.Open(filePath)
+	file, err := haikuDir.Open(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return "", TextMissingError
