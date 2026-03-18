@@ -13,9 +13,9 @@ import (
 
 const (
 	HAIKU_PATH = "year"
-	DRAFT      = iota
-	MIKE
-	RAY
+
+	DRAFT = iota
+	ALTERNATIVE
 	FINAL
 )
 
@@ -26,7 +26,8 @@ type Haiku struct {
 	text    string
 	author  string
 	comment string
-	variant int // DRAFT .. FINAL
+	variant string // DRAFT .. FINAL
+	version int
 }
 
 var (
@@ -36,8 +37,26 @@ var (
 	TextMissingError  = errors.New("haiku text missing")
 )
 
+var variants = []string{
+	"%s-%s.txt", "%s-%s_M.txt", "%s-%s_R.txt",
+	"%s-%s_0.txt", "%s-%s_1.txt", "%s-%s_2.txt", "%s-%s_3.txt",
+	"%s~%s_0.txt", "%s~%s_1.txt", "%s~%s_2.txt", "%s~%s_3.txt",
+}
+
 //go:embed year
 var haikuDir embed.FS
+
+func iota2string(i int) (s string) {
+	switch i {
+	case DRAFT:
+		s = "DRAFT"
+	case ALTERNATIVE:
+		s = "ALTERNATIVE"
+	case FINAL:
+		s = "FINAL"
+	}
+	return s
+}
 
 func NewHaiku(date string) *Haiku {
 	ymd := strings.Split(date, "-")
@@ -46,8 +65,8 @@ func NewHaiku(date string) *Haiku {
 }
 
 func (h Haiku) print() {
-	fmt.Printf("%s\tDate: %s.%s.%s\n\tAuthor: %s\n\tComment: %s\n-------------------------\n",
-		h.text, h.day, h.month, h.year, h.author, h.comment)
+	fmt.Printf("%s\tDate: %s.%s.%s\n\tAuthor: %s\n\tComment: %s\n\tVariant: %v\n\tVersion: %v\n-------------------------\n",
+		h.text, h.day, h.month, h.year, h.author, h.comment, h.variant, h.version)
 }
 
 func (h *Haiku) splitText(content string) {
@@ -73,22 +92,16 @@ func readHaiku(date string) (today []Haiku, err error) {
 	}
 	h := NewHaiku(date)
 
-	variants := []string{
-		"%s-%s.txt", "%s-%s_M.txt", "%s-%s_R.txt",
-		"%s-%s_0.txt", "%s-%s_1.txt", "%s-%s_2.txt", "%s-%s_3.txt",
-		"%s~%s_0.txt", "%s~%s_1.txt", "%s~%s_2.txt", "%s~%s_3.txt",
-	}
 	for i := 0; i < len(variants); i++ {
 		err = nil
-		file := fmt.Sprintf(variants[i], h.month, h.day)
-		filePath := filepath.Join(HAIKU_PATH, h.month, file)
-		//		filePath := filepath.Join(h.month, file)
+		fileName := fmt.Sprintf(variants[i], h.month, h.day)
+		filePath := filepath.Join(HAIKU_PATH, h.month, fileName)
 		t, err := readFile(filePath)
 		if err != nil {
 			continue
 		}
 		h.text = t
-		h.variant = FINAL
+		h.variant, h.version = findVariant(fileName)
 		h.splitText(t)
 		today = append(today, *h)
 	}
@@ -180,4 +193,26 @@ func findComment(content string) (comment string) {
 		comment = matches[1]
 	}
 	return comment
+}
+
+func findVariant(fileName string) (variant string, version int) {
+	dateAndVersion := strings.Split(fileName, "_")
+	if len(dateAndVersion) == 2 {
+		n := strings.Replace(dateAndVersion[1], ".txt", "", -1)
+		v, err := strconv.Atoi(n)
+		if err == nil {
+			version = v
+		}
+	}
+	if strings.Contains(fileName, "-") {
+		if version == 0 {
+			variant = iota2string(FINAL)
+		} else {
+			variant = iota2string(ALTERNATIVE)
+		}
+	}
+	if strings.Contains(fileName, "~") {
+		variant = iota2string(DRAFT)
+	}
+	return variant, version
 }
