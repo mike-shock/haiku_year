@@ -4,6 +4,7 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -24,7 +25,7 @@ type Haiku struct { // 俳句
 	day     string
 	month   string
 	year    string
-	text    string
+	text    string // 句
 	author  string
 	comment string
 	variant string // DRAFT .. FINAL
@@ -45,7 +46,7 @@ var variants = []string{
 }
 
 //go:embed year
-var haikuDir embed.FS
+var HaikuDir embed.FS
 
 func iota2string(i int) (s string) {
 	switch i {
@@ -63,7 +64,10 @@ func Today() (today []Haiku) {
 	kyou := time.Now().Format("2006-01-02") // 今日
 	today, err := loadHaiku(kyou)
 	if err != nil || len(today) == 0 {
-		today, _ = pretext()
+		today, err = pretext()
+		if err != nil {
+			log.Printf("Today: %v", err)
+		}
 	}
 	return today
 }
@@ -72,6 +76,10 @@ func NewHaiku(date string) *Haiku {
 	ymd := strings.Split(date, "-")
 	h := Haiku{day: fmt.Sprintf("%02s", ymd[2]), month: fmt.Sprintf("%02s", ymd[1])}
 	return &h
+}
+
+func (h Haiku) Verse() string {
+	return h.text
 }
 
 func (h Haiku) print() {
@@ -95,8 +103,14 @@ func (h *Haiku) splitText(content string) {
 }
 
 func pretext() (unwritten []Haiku, err error) {
+	unwritten = []Haiku{}
 	h, err := readHaiku("0000-00-00", filepath.Join(HAIKU_PATH, "00"), "00-00.txt")
-	unwritten = []Haiku{*h}
+	if err != nil {
+		log.Printf("pretext: %v", err)
+	}
+	if err == nil {
+		unwritten = append(unwritten, *h)
+	}
 	return unwritten, err
 }
 
@@ -134,8 +148,7 @@ func readHaiku(date, filePath, fileName string) (h *Haiku, err error) {
 }
 
 func readFile(filePath string) (content string, err error) {
-	//	file, err := os.Open(filePath)
-	file, err := haikuDir.Open(filePath)
+	file, err := HaikuDir.Open(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return "", TextMissingError
@@ -143,7 +156,7 @@ func readFile(filePath string) (content string, err error) {
 		return "", err
 	}
 	defer file.Close()
-	data, err := os.ReadFile(filePath)
+	data, err := HaikuDir.ReadFile(filePath)
 	if err != nil {
 		return "", err
 	}

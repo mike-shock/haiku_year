@@ -65,9 +65,12 @@ func TestNewHaiku(t *testing.T) {
 }
 
 func TestPretextHaiku(t *testing.T) {
-	h, _ := pretext()
+	h, err := pretext()
+	if err != nil {
+		t.Fatalf("default haiku reading error: '%v'", err)
+	}
 	if len(h) == 0 {
-		t.Fatalf("default haiku not read: '%v'", h)
+		t.Fatalf("default haiku not found: '%v'", h)
 	}
 }
 
