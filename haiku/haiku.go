@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 	FINAL
 )
 
-type Haiku struct {
+type Haiku struct { // 俳句
 	day     string
 	month   string
 	year    string
@@ -58,6 +59,15 @@ func iota2string(i int) (s string) {
 	return s
 }
 
+func Today() (today []Haiku) {
+	kyou := time.Now().Format("2006-01-02") // 今日
+	today, err := loadHaiku(kyou)
+	if err != nil || len(today) == 0 {
+		today, _ = pretext()
+	}
+	return today
+}
+
 func NewHaiku(date string) *Haiku {
 	ymd := strings.Split(date, "-")
 	h := Haiku{day: fmt.Sprintf("%02s", ymd[2]), month: fmt.Sprintf("%02s", ymd[1])}
@@ -84,28 +94,43 @@ func (h *Haiku) splitText(content string) {
 	h.comment = findComment(content)
 }
 
-func readHaiku(date string) (today []Haiku, err error) {
-	today = []Haiku{}
+func pretext() (unwritten []Haiku, err error) {
+	h, err := readHaiku("0000-00-00", filepath.Join(HAIKU_PATH, "00"), "00-00.txt")
+	unwritten = []Haiku{*h}
+	return unwritten, err
+}
+
+func loadHaiku(date string) (list []Haiku, err error) {
+	list = []Haiku{}
 	err = checkDate(date)
 	if err != nil {
-		return today, err
+		return list, err
 	}
-	h := NewHaiku(date)
 
 	for i := 0; i < len(variants); i++ {
 		err = nil
+		h := NewHaiku(date)
 		fileName := fmt.Sprintf(variants[i], h.month, h.day)
-		filePath := filepath.Join(HAIKU_PATH, h.month, fileName)
-		t, err := readFile(filePath)
+		filePath := filepath.Join(HAIKU_PATH, h.month)
+		h, err = readHaiku(date, filePath, fileName)
 		if err != nil {
 			continue
 		}
-		h.text = t
-		h.variant, h.version = findVariant(fileName)
-		h.splitText(t)
-		today = append(today, *h)
+		list = append(list, *h)
 	}
-	return today, nil
+	return list, nil
+}
+
+func readHaiku(date, filePath, fileName string) (h *Haiku, err error) {
+	h = NewHaiku(date)
+	t, err := readFile(filepath.Join(filePath, fileName))
+	if err != nil {
+		return nil, err
+	}
+	h.text = t
+	h.variant, h.version = findVariant(fileName)
+	h.splitText(t)
+	return h, nil
 }
 
 func readFile(filePath string) (content string, err error) {

@@ -64,6 +64,25 @@ func TestNewHaiku(t *testing.T) {
 	}
 }
 
+func TestPretextHaiku(t *testing.T) {
+	h, _ := pretext()
+	if len(h) == 0 {
+		t.Fatalf("default haiku not read: '%v'", h)
+	}
+}
+
+func TestTodayHaiku(t *testing.T) {
+	h := Today()
+	if len(h) == 0 {
+		t.Fatalf("no haiku found for today(): '%v'", h)
+	} else {
+		h[0].print()
+	}
+	if h[0].day == "" {
+		t.Errorf("invalid day of from today(): '%v'", h[0].day)
+	}
+}
+
 func TestSplitText(t *testing.T) {
 	wantDay, wantMonth, wantYear := "25", "04", "1976"
 	h := NewHaiku(testDate)
@@ -101,10 +120,10 @@ func TestReadFile(t *testing.T) {
 	}
 }
 
-func TestReadHaiku(t *testing.T) {
+func TestLoadHaiku(t *testing.T) {
 	for _, td := range testData {
 		if td.outputNegative == nil {
-			h, err := readHaiku(td.input)
+			h, err := loadHaiku(td.input)
 			if err != nil {
 				if err != td.outputError {
 					t.Errorf("unexpected error while reading by date: %v", err)
