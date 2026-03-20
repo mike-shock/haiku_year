@@ -22,9 +22,9 @@ const (
 )
 
 type Haiku struct { // 俳句
-	day     string
-	month   string
-	year    string
+	day     string // 日
+	month   string // 月
+	year    string // 年
 	text    string // 句
 	author  string
 	comment string
@@ -64,11 +64,12 @@ func Today() (today []Haiku) {
 	kyou := time.Now().Format("2006-01-02") // 今日
 	today, err := loadHaiku(kyou)
 	if err != nil || len(today) == 0 {
-		today, err = pretext()
+		today, err = pretext(kyou)
 		if err != nil {
 			log.Printf("Today: %v", err)
 		}
 	}
+	log.Printf("Today's: %#v", today)
 	return today
 }
 
@@ -76,6 +77,10 @@ func NewHaiku(date string) *Haiku {
 	ymd := strings.Split(date, "-")
 	h := Haiku{day: fmt.Sprintf("%02s", ymd[2]), month: fmt.Sprintf("%02s", ymd[1])}
 	return &h
+}
+
+func (h Haiku) Date() string {
+	return fmt.Sprintf("%04s-%02s-%02s", h.year, h.month, h.day)
 }
 
 func (h Haiku) Verse() string {
@@ -102,7 +107,7 @@ func (h *Haiku) splitText(content string) {
 	h.comment = findComment(content)
 }
 
-func pretext() (unwritten []Haiku, err error) {
+func pretext(date string) (unwritten []Haiku, err error) {
 	unwritten = []Haiku{}
 	h, err := readHaiku("0000-00-00", filepath.Join(HAIKU_PATH, "00"), "00-00.txt")
 	if err != nil {
@@ -110,6 +115,8 @@ func pretext() (unwritten []Haiku, err error) {
 	}
 	if err == nil {
 		unwritten = append(unwritten, *h)
+		ymd := strings.Split(date, "-")
+		unwritten[0].year, unwritten[0].month, unwritten[0].day = ymd[0], ymd[1], ymd[2]
 	}
 	return unwritten, err
 }

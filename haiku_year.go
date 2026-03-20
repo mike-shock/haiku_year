@@ -1,18 +1,26 @@
 package main
 
 import (
+	//	"image/color"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+
+	//	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
+	"haiku_year/calendar"
 	"haiku_year/haiku"
 )
 
-var windowWidth, windowHeight float32 = 280, 320
+var (
+	windowWidth, windowHeight float32 = 280, 320
+	todayHaiku                []haiku.Haiku
+)
 
 func main() {
-	//	haiku.HaikuDir = haikuDir
+	todayHaiku = haiku.Today()
 	a := app.New()
 	w := a.NewWindow("Год хайку | 俳句の年")
 
@@ -28,9 +36,8 @@ func main() {
 
 func tabToday() fyne.CanvasObject {
 	final := ""
-	h := haiku.Today()
-	if len(h) > 0 {
-		final = h[0].Verse()
+	if len(todayHaiku) > 0 {
+		final = todayHaiku[0].Verse()
 	}
 	verse := widget.NewRichTextWithText(final)
 	content := container.NewVBox(verse)
@@ -38,9 +45,23 @@ func tabToday() fyne.CanvasObject {
 }
 
 func tabCalendar() fyne.CanvasObject {
-	info := "Здесь будет календарь на месяц."
-
-	verse := widget.NewRichTextWithText(info)
-	content := container.NewVBox(verse)
+	calendar := calendar.NewCalendar(todayHaiku[0].Date())
+	info := calendar.String()
+	days := widget.NewRichTextWithText(info)
+	content := container.NewVBox(days)
+	/*
+		days := calendar.Days()
+		list := widget.NewTable(
+			func() (int, int) {
+				return len(days), len(days[0])
+			},
+			func() fyne.CanvasObject {
+				return widget.NewLabel("Calendar")
+			},
+			func(i widget.TableCellID, o fyne.CanvasObject) {
+				o.(*widget.Label).SetText(days[i.Row][i.Col])
+			})
+		content := container.NewVBox(list)
+	*/
 	return content
 }

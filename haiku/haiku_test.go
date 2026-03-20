@@ -65,7 +65,7 @@ func TestNewHaiku(t *testing.T) {
 }
 
 func TestPretextHaiku(t *testing.T) {
-	h, err := pretext()
+	h, err := pretext("2026-02-20")
 	if err != nil {
 		t.Fatalf("default haiku reading error: '%v'", err)
 	}

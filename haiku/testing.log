@@ -3,11 +3,12 @@
 === RUN   TestPretextHaiku
 --- PASS: TestPretextHaiku (0.00s)
 === RUN   TestTodayHaiku
+2026/03/20 14:35:48 Today's: []haiku.Haiku{haiku.Haiku{day:"20", month:"03", year:"2026", text:"Без настроенья\nхайку не сочинится,\nкак ни старайся!\n\n", author:"Mike", comment:"На этот день хайку пока нет...", variant:"FINAL", version:0}}
 Без настроенья
 хайку не сочинится,
 как ни старайся!
 
-	Date: 00.00.0000
+	Date: 20.03.2026
 	Author: Mike
 	Comment: На этот день хайку пока нет...
 	Variant: FINAL
@@ -169,4 +170,4 @@ and the sky is starless.
 === RUN   TestFindVariant
 --- PASS: TestFindVariant (0.00s)
 PASS
-ok  	haiku-year/haiku	0.002s
+ok  	haiku_year/haiku	0.002s

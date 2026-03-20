@@ -4,8 +4,11 @@ go 1.26.1
 
 replace haiku_year/haiku => ./haiku
 
+replace haiku_year/calendar => ./calendar
+
 require (
 	fyne.io/fyne/v2 v2.7.3
+	haiku_year/calendar v0.0.0-00010101000000-000000000000
 	haiku_year/haiku v0.0.0-00010101000000-000000000000
 )
 
