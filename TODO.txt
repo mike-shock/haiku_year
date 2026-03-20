@@ -1,0 +1,5 @@
+~ GUI program
+- calendar for 1 month
+- navigating from current month to the next or previous one
+- show variants
+- show drafts

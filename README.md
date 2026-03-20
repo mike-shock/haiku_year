@@ -5,7 +5,7 @@ It's a kind of diary of my life squeezed in one year.
 My impressions and observations on the nature in my native place.
 Hope it may be interesting for someone, at least for my relatives...
 
-A GUI application will be written in Go (cross-platform for GNU/linux, MS Windows, Android), with the help of Fyne.
+A GUI application is written in Go (cross-platform for GNU/linux, MS Windows, Android), with the help of Fyne.
 May be run every day to read today's haiku.
 
 I've got some photos and even several short videos illustrating my haiku, but I'll not include 'em.

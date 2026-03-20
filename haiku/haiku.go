@@ -46,7 +46,7 @@ var variants = []string{
 }
 
 //go:embed year
-var HaikuDir embed.FS
+var haikuDir embed.FS
 
 func iota2string(i int) (s string) {
 	switch i {
@@ -148,7 +148,7 @@ func readHaiku(date, filePath, fileName string) (h *Haiku, err error) {
 }
 
 func readFile(filePath string) (content string, err error) {
-	file, err := HaikuDir.Open(filePath)
+	file, err := haikuDir.Open(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return "", TextMissingError
@@ -156,7 +156,7 @@ func readFile(filePath string) (content string, err error) {
 		return "", err
 	}
 	defer file.Close()
-	data, err := HaikuDir.ReadFile(filePath)
+	data, err := haikuDir.ReadFile(filePath)
 	if err != nil {
 		return "", err
 	}

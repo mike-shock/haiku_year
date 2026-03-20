@@ -6,7 +6,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
-	"haiku-year/haiku"
+	"haiku_year/haiku"
 )
 
 var windowWidth, windowHeight float32 = 280, 320
