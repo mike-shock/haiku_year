@@ -12,9 +12,11 @@ const (
 )
 
 var (
-	weekDaysRU = []string{"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"}
-	weekDaysEN = []string{"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"}
-	weekDaysJP = []string{"月", "火", "水", "木", "金", "土", "日"} // 曜日
+	weekDays = map[string][]string{
+		"RU": []string{"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"},
+		"EN": []string{"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"},
+		"JP": []string{"月", "火", "水", "木", "金", "土", "日"}, // 曜日
+	}
 )
 
 type Calendar struct { // 暦
@@ -38,13 +40,17 @@ func NewCalendar(date string) Calendar {
 	return c
 }
 
+func WeekDays(language string) []string {
+	return weekDays[language]
+}
+
 func (c Calendar) Days() [][]string {
 	return c.days
 }
 
 func (c Calendar) String() (s string) {
 	s = fmt.Sprintf("%s\n", c.date)
-	s += fmt.Sprintf("%s\n", strings.Join(weekDaysRU, " "))
+	s += fmt.Sprintf("%s\n", strings.Join(weekDays["RU"], " "))
 	for row := 0; row < 6; row++ {
 		for col := 0; col < 7; col++ {
 			s += fmt.Sprintf("%2s ", c.days[row][col])
@@ -55,14 +61,7 @@ func (c Calendar) String() (s string) {
 }
 
 func (c Calendar) print() {
-	fmt.Println(c.date)
-	fmt.Println(strings.Join(weekDaysRU, " "))
-	for row := 0; row < 6; row++ {
-		for col := 0; col < 7; col++ {
-			fmt.Printf("%2s ", c.days[row][col])
-		}
-		fmt.Println()
-	}
+	fmt.Println(c)
 }
 
 func (c *Calendar) emptyDays() {
@@ -70,7 +69,7 @@ func (c *Calendar) emptyDays() {
 	for i := range c.days {
 		c.days[i] = make([]string, 7)
 		for j := range c.days[i] {
-			c.days[i][j] = "__"
+			c.days[i][j] = "  " // __"
 		}
 	}
 }

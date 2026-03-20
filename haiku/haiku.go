@@ -66,10 +66,10 @@ func Today() (today []Haiku) {
 	if err != nil || len(today) == 0 {
 		today, err = pretext(kyou)
 		if err != nil {
-			log.Printf("Today: %v", err)
+			log.Printf("Today(): %v", err)
 		}
 	}
-	log.Printf("Today's: %#v", today)
+	//log.Printf("Today's: %#v", today)
 	return today
 }
 

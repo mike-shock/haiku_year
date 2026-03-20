@@ -8,6 +8,7 @@ import (
 
 	//	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
 	"haiku_year/calendar"
@@ -45,23 +46,36 @@ func tabToday() fyne.CanvasObject {
 }
 
 func tabCalendar() fyne.CanvasObject {
+	c := calendar.NewCalendar(todayHaiku[0].Date())
+	days := c.Days()
+
+	grid := layout.NewGridLayout(7)
+	gridContainer := container.New(grid)
+
+	for _, wd := range calendar.WeekDays("RU") {
+		gridContainer.Add(widget.NewLabel(wd))
+	}
+
+	for row := 0; row < len(days); row++ {
+		for col := 0; col < len(days[row]); col++ {
+			gridContainer.Add(widget.NewLabel(days[row][col]))
+		}
+	}
+
+	for _, wd := range calendar.WeekDays("JP") {
+		gridContainer.Add(widget.NewLabel(wd))
+	}
+
+	content := container.NewVBox(gridContainer)
+	return content
+}
+
+/*
+func tabCalendarText() fyne.CanvasObject {
 	calendar := calendar.NewCalendar(todayHaiku[0].Date())
 	info := calendar.String()
 	days := widget.NewRichTextWithText(info)
 	content := container.NewVBox(days)
-	/*
-		days := calendar.Days()
-		list := widget.NewTable(
-			func() (int, int) {
-				return len(days), len(days[0])
-			},
-			func() fyne.CanvasObject {
-				return widget.NewLabel("Calendar")
-			},
-			func(i widget.TableCellID, o fyne.CanvasObject) {
-				o.(*widget.Label).SetText(days[i.Row][i.Col])
-			})
-		content := container.NewVBox(list)
-	*/
 	return content
 }
+*/
