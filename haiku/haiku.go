@@ -69,8 +69,18 @@ func Today() (today []Haiku) {
 			log.Printf("Today(): %v", err)
 		}
 	}
-	//log.Printf("Today's: %#v", today)
 	return today
+}
+
+func IsHaiku(date string) (ok bool) {
+	if err := checkDate(date); err != nil {
+		return false
+	}
+	filePath := date2path(date)
+	if err := checkFile(filePath); err == nil {
+		ok = true
+	}
+	return ok
 }
 
 func NewHaiku(date string) *Haiku {
@@ -155,19 +165,33 @@ func readHaiku(date, filePath, fileName string) (h *Haiku, err error) {
 }
 
 func readFile(filePath string) (content string, err error) {
-	file, err := haikuDir.Open(filePath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return "", TextMissingError
-		}
+	if err = checkFile(filePath); err != nil {
 		return "", err
 	}
-	defer file.Close()
 	data, err := haikuDir.ReadFile(filePath)
 	if err != nil {
 		return "", err
 	}
 	return string(data), nil
+}
+
+func checkFile(filePath string) (err error) {
+	file, err := haikuDir.Open(filePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return TextMissingError
+		}
+	}
+	defer file.Close()
+	return err
+}
+
+func date2path(date string) (filePath string) {
+	ymd := strings.Split(date, "-")
+	fp := filepath.Join(HAIKU_PATH, ymd[1])
+	fn := fmt.Sprintf("%02s-%02s.txt", ymd[1], ymd[2])
+	filePath = filepath.Join(fp, fn)
+	return filePath
 }
 
 func checkDate(date string) (err error) {

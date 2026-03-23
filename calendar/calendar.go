@@ -17,6 +17,16 @@ var (
 		"EN": []string{"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"},
 		"JP": []string{"月", "火", "水", "木", "金", "土", "日"}, // 曜日
 	}
+	months = map[string][]string{
+		"RU": []string{"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"},
+		"EN": []string{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"},
+		"JP": []string{"一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"},
+	}
+	seasons = map[string][]string{
+		"RU": []string{"Весна", "Лето", "Осень", "Зима"},
+		"EN": []string{"Spring", "Summer", "Autumn", "Winter"},
+		"JP": []string{"春", "夏", "秋", "冬"},
+	}
 )
 
 type Calendar struct { // 暦
@@ -92,4 +102,10 @@ func (c *Calendar) fillDays() {
 			row++
 		}
 	}
+}
+
+func CurrentDate() (currentYear, currentMonth, currentDay string) {
+	today := time.Now().Format("2006-01-02")
+	currentYear, currentMonth, currentDay = string(today[0]), string(today[1]), string(today[2])
+	return currentYear, currentMonth, currentDay
 }

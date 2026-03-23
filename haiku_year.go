@@ -1,7 +1,8 @@
 package main
 
 import (
-	//	"image/color"
+	"fmt"
+	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -16,11 +17,13 @@ import (
 )
 
 var (
-	windowWidth, windowHeight float32 = 280, 320
-	todayHaiku                []haiku.Haiku
+	windowWidth, windowHeight             float32 = 280, 320
+	todayHaiku                            []haiku.Haiku
+	currentYear, currentMonth, currentDay string
 )
 
 func main() {
+	currentYear, currentMonth, currentDay = "2026", "03", "" // calendar.CurrentDate()
 	todayHaiku = haiku.Today()
 	a := app.New()
 	w := a.NewWindow("Год хайку | 俳句の年")
@@ -36,16 +39,56 @@ func main() {
 }
 
 func tabToday() fyne.CanvasObject {
-	final := ""
+	todayDate, finalText := "", ""
 	if len(todayHaiku) > 0 {
-		final = todayHaiku[0].Verse()
+		finalText = todayHaiku[0].Verse()
+		todayDate = todayHaiku[0].Date()
 	}
-	verse := widget.NewRichTextWithText(final)
-	content := container.NewVBox(verse)
+	dateLabel := widget.NewLabel(todayDate)
+	verseText := widget.NewRichTextWithText(finalText)
+	content := container.NewVBox(dateLabel, verseText)
 	return content
 }
 
 func tabCalendar() fyne.CanvasObject {
+	c := calendar.NewCalendar(todayHaiku[0].Date())
+	days := c.Days()
+
+	grid := layout.NewGridLayout(7)
+	gridContainer := container.New(grid)
+
+	for _, wd := range calendar.WeekDays("RU") {
+		gridContainer.Add(widget.NewLabel(wd))
+	}
+
+	for row := 0; row < 6; row++ {
+		for col := 0; col < 7; col++ {
+			d := days[row][col]
+			if d == "  " {
+				gridContainer.Add(widget.NewLabel(d))
+			} else {
+				b := widget.NewButton(d, func() {
+					log.Println(d)
+				})
+				date := fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, d)
+				if haiku.IsHaiku(date) {
+					b.Importance = widget.HighImportance
+				}
+				gridContainer.Add(b)
+			}
+		}
+	}
+
+	for _, wd := range calendar.WeekDays("JP") {
+		gridContainer.Add(widget.NewLabel(wd))
+	}
+
+	content := container.NewVBox(gridContainer)
+	return content
+}
+
+/*
+func tabCalendarGrid() fyne.CanvasObject {
 	c := calendar.NewCalendar(todayHaiku[0].Date())
 	days := c.Days()
 
@@ -69,7 +112,7 @@ func tabCalendar() fyne.CanvasObject {
 	content := container.NewVBox(gridContainer)
 	return content
 }
-
+*/
 /*
 func tabCalendarText() fyne.CanvasObject {
 	calendar := calendar.NewCalendar(todayHaiku[0].Date())

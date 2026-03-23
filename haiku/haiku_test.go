@@ -49,6 +49,22 @@ var (
 	testDate = "2022-03-07"
 )
 
+func TestIsHaiku(t *testing.T) {
+	testDateYes, testDateNo, testDateNone := "2026-01-01", "2026-01-31", "2026-03-32"
+	yes := IsHaiku(testDateYes)
+	if !yes {
+		t.Errorf("there should be a haiku for %v", testDateYes)
+	}
+	yes = IsHaiku(testDateNo)
+	if yes {
+		t.Errorf("there shouldn't be a haiku for %v", testDateNo)
+	}
+	yes = IsHaiku(testDateNone)
+	if yes {
+		t.Errorf("there shouldn't be a haiku for %v", testDateNone)
+	}
+}
+
 func TestNewHaiku(t *testing.T) {
 	ymd := strings.Split(testDate, "-")
 	h := NewHaiku(testDate)
@@ -193,5 +209,14 @@ func TestFindVariant(t *testing.T) {
 		if version != fvv[i].version {
 			t.Errorf("version for %v: want %v, got %v", fvv[i].file, fvv[i].version, version)
 		}
+	}
+}
+
+func TestDate2Path(t *testing.T) {
+	date := "2026-01-01"
+	wantPath := "year/01/01-01.txt"
+	gotPath := date2path(date)
+	if gotPath != wantPath {
+		t.Errorf("bad path for %v: want %v, got %v", date, wantPath, gotPath)
 	}
 }

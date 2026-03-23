@@ -1,14 +1,17 @@
+=== RUN   TestIsHaiku
+2026/03/23 16:39:45 []string{"2026", "01", "01"} "year/01/01-01.txt"
+2026/03/23 16:39:45 []string{"2026", "01", "31"} "year/01/01-31.txt"
+--- PASS: TestIsHaiku (0.00s)
 === RUN   TestNewHaiku
 --- PASS: TestNewHaiku (0.00s)
 === RUN   TestPretextHaiku
 --- PASS: TestPretextHaiku (0.00s)
 === RUN   TestTodayHaiku
-2026/03/20 14:35:48 Today's: []haiku.Haiku{haiku.Haiku{day:"20", month:"03", year:"2026", text:"Без настроенья\nхайку не сочинится,\nкак ни старайся!\n\n", author:"Mike", comment:"На этот день хайку пока нет...", variant:"FINAL", version:0}}
 Без настроенья
 хайку не сочинится,
 как ни старайся!
 
-	Date: 20.03.2026
+	Date: 23.03.2026
 	Author: Mike
 	Comment: На этот день хайку пока нет...
 	Variant: FINAL
@@ -169,5 +172,8 @@ and the sky is starless.
 --- PASS: TestFindComment (0.00s)
 === RUN   TestFindVariant
 --- PASS: TestFindVariant (0.00s)
+=== RUN   TestDate2Path
+2026/03/23 16:39:45 []string{"2026", "01", "01"} "year/01/01-01.txt"
+--- PASS: TestDate2Path (0.00s)
 PASS
 ok  	haiku_year/haiku	0.002s
