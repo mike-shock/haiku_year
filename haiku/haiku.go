@@ -97,6 +97,14 @@ func (h Haiku) Verse() string {
 	return h.text
 }
 
+func (h Haiku) Author() string {
+	return h.author
+}
+
+func (h Haiku) Comment() string {
+	return h.comment
+}
+
 func (h Haiku) print() {
 	fmt.Printf("%s\tDate: %s.%s.%s\n\tAuthor: %s\n\tComment: %s\n\tVariant: %v\n\tVersion: %v\n-------------------------\n",
 		h.text, h.day, h.month, h.year, h.author, h.comment, h.variant, h.version)

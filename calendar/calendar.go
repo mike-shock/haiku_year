@@ -3,12 +3,15 @@ package calendar
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 )
 
 const (
 	dateFormat = "2006-01-02"
+	Rows       = 6
+	Cols       = 7
 )
 
 var (
@@ -18,14 +21,14 @@ var (
 		"JP": []string{"月", "火", "水", "木", "金", "土", "日"}, // 曜日
 	}
 	months = map[string][]string{
-		"RU": []string{"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"},
-		"EN": []string{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"},
-		"JP": []string{"一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"},
+		"RU": []string{"", "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"},
+		"EN": []string{"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"},
+		"JP": []string{"", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"},
 	}
 	seasons = map[string][]string{
-		"RU": []string{"Весна", "Лето", "Осень", "Зима"},
-		"EN": []string{"Spring", "Summer", "Autumn", "Winter"},
-		"JP": []string{"春", "夏", "秋", "冬"},
+		"RU": []string{"", "Весна", "Лето", "Осень", "Зима"},
+		"EN": []string{"", "Spring", "Summer", "Autumn", "Winter"},
+		"JP": []string{"", "春", "夏", "秋", "冬"},
 	}
 )
 
@@ -50,6 +53,54 @@ func NewCalendar(date string) Calendar {
 	return c
 }
 
+func Today(language string) (date string) {
+	today := time.Now().Format("2006-01-02") // 今日
+	date = ThisDay(today, language)
+	return date
+}
+
+func ThisDay(someDate, language string) (date string) {
+	switch language {
+	case "RU", "EN":
+		date = someDate // YYYY-MM-DD
+	case "JP":
+		ymd := strings.Split(someDate, "-")
+		date = fmt.Sprintf("%04s年%02s月%02s日", ymd[0], ymd[1], ymd[2])
+	}
+	return date
+}
+
+func Season(date, language string) string {
+	ymd := strings.Split(date, "-")
+	if len(ymd) == 3 {
+		if m, err := strconv.Atoi(ymd[1]); err == nil {
+			s := 0
+			switch m {
+			case 3, 4, 5:
+				s = 1
+			case 6, 7, 8:
+				s = 2
+			case 9, 10, 11:
+				s = 3
+			case 12, 1, 2:
+				s = 4
+			}
+			return seasons[language][s]
+		}
+	}
+	return ""
+}
+
+func Month(date, language string) (month string) {
+	ymd := strings.Split(date, "-")
+	if m, err := strconv.Atoi(ymd[1]); err == nil {
+		if m >= 1 && m <= 12 {
+			month = months[language][m]
+		}
+	}
+	return month
+}
+
 func WeekDays(language string) []string {
 	return weekDays[language]
 }
@@ -61,8 +112,8 @@ func (c Calendar) Days() [][]string {
 func (c Calendar) String() (s string) {
 	s = fmt.Sprintf("%s\n", c.date)
 	s += fmt.Sprintf("%s\n", strings.Join(weekDays["RU"], " "))
-	for row := 0; row < 6; row++ {
-		for col := 0; col < 7; col++ {
+	for row := 0; row < Rows; row++ {
+		for col := 0; col < Cols; col++ {
 			s += fmt.Sprintf("%2s ", c.days[row][col])
 		}
 		s += "\n"
@@ -75,9 +126,9 @@ func (c Calendar) print() {
 }
 
 func (c *Calendar) emptyDays() {
-	c.days = make([][]string, 6)
+	c.days = make([][]string, Rows)
 	for i := range c.days {
-		c.days[i] = make([]string, 7)
+		c.days[i] = make([]string, Cols)
 		for j := range c.days[i] {
 			c.days[i][j] = "  " // __"
 		}
@@ -89,7 +140,7 @@ func (c *Calendar) fillDays() {
 	// Weekday in Go: Sunday = 0, Monday = 1, ..., Saturday = 6
 	goWeekday := firstDay.Weekday()
 	// our week days numeration: 0 = Monday, 6 = Sunday
-	col := (int(goWeekday) + 6) % 7
+	col := (int(goWeekday) + 6) % Cols
 	// find out days number in this month
 	lastDay := time.Date(c.year, c.month+1, 0, 0, 0, 0, 0, time.UTC).Day()
 	// fill the days
@@ -97,7 +148,7 @@ func (c *Calendar) fillDays() {
 	for day := 1; day <= lastDay; day++ {
 		c.days[row][col] = fmt.Sprintf("%02d", day)
 		col++
-		if col == 7 {
+		if col == Cols {
 			col = 0
 			row++
 		}
@@ -105,7 +156,7 @@ func (c *Calendar) fillDays() {
 }
 
 func CurrentDate() (currentYear, currentMonth, currentDay string) {
-	today := time.Now().Format("2006-01-02")
-	currentYear, currentMonth, currentDay = string(today[0]), string(today[1]), string(today[2])
+	year, month, day := time.Now().Date()
+	currentYear, currentMonth, currentDay = fmt.Sprintf("%04d", year), fmt.Sprintf("%02d", month), fmt.Sprintf("%02d", day)
 	return currentYear, currentMonth, currentDay
 }
