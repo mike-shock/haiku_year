@@ -117,9 +117,10 @@ func PreviousMonth(date string) string {
 		return date
 	}
 	y, m, d := t.Date()
-	y, m, d = time.Date(y, m-1, 1, 0, 0, 0, 0, time.UTC).Date()
-	if m == 12 {
-		y, m, d = time.Date(y-1, 1, 1, 0, 0, 0, 0, time.UTC).Date()
+	if m == 1 {
+		y, m, d = time.Date(y-1, 12, 1, 0, 0, 0, 0, time.UTC).Date()
+	} else {
+		y, m, d = time.Date(y, m-1, 1, 0, 0, 0, 0, time.UTC).Date()
 	}
 	return fmt.Sprintf("%04d-%02d-%02d", y, int(m), d)
 }

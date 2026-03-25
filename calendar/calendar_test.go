@@ -112,7 +112,7 @@ func TestNextMonth(t *testing.T) {
 	for m != 2 {
 		d1 = fmt.Sprintf("%04d-%02d-%02d", y, m, d)
 		d2 = NextMonth(d1)
-		fmt.Println(d2)
+		fmt.Println("NextMonth", d1, "-->", d2)
 		_, mm, _ := YyyyMmDd(d2)
 		m2, _ := strconv.Atoi(mm)
 		if (m < 12) && (m2 != m+1) {
@@ -122,5 +122,28 @@ func TestNextMonth(t *testing.T) {
 			t.Errorf("invalid next date: '%v'", d2)
 		}
 		m = m2
+	}
+}
+
+func TestPreviousMonth(t *testing.T) {
+	y := 2026
+	m := 5
+	d := 1
+	var d1, d2 = "", ""
+	for m != 6 {
+		d1 = fmt.Sprintf("%04d-%02d-%02d", y, m, d)
+		d2 = PreviousMonth(d1)
+		fmt.Println("PreviousMonth", d1, "-->", d2)
+		yyyy, mm, _ := YyyyMmDd(d2)
+		y2, _ := strconv.Atoi(yyyy)
+		m2, _ := strconv.Atoi(mm)
+		if (m > 1) && (m2 != m-1) {
+			t.Fatalf("invalid previous date: '%v'", d2)
+		}
+		if (m == 1) && (m2 != 12) {
+			t.Fatalf("invalid previous date: '%v'", d2)
+		}
+		m = m2
+		y = y2
 	}
 }

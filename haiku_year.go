@@ -80,6 +80,8 @@ func tabCalendar() *fyne.Container {
 }
 
 func setCalendar() *fyne.Container {
+	currentDate = currentYear + "-" + currentMonth + "-" + currentDay
+	fmt.Println("setCalendar", currentDate, currentYear, currentMonth, currentDay)
 	monthText := calendar.Month(currentDate, "RU") + " | " + calendar.Month(currentDate, "JP")
 	monthLabel := widget.NewLabelWithStyle(monthText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 
@@ -104,10 +106,8 @@ func setCalendar() *fyne.Container {
 				gridContainer.Add(widget.NewLabel(d))
 			} else {
 				b := widget.NewButton(d, func() {
-					currentDate = fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, d)
-					log.Println(currentDate)
-					tabHaiku.Content = setHaiku()
-					tabs.Select(tabHaiku)
+					currentDay = d
+					thisDay()
 				})
 				date := fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, d)
 				if haiku.IsHaiku(date) {
@@ -135,9 +135,17 @@ func nextMonth() {
 }
 
 func backMonth() {
+	cD := currentDate
 	currentDate := calendar.PreviousMonth(currentDate)
 	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
-	log.Println("Previous:", currentDate)
+	log.Println("Previous:", cD, "-->", currentDate)
 	tabMonth.Content = setCalendar()
 	tabs.Select(tabMonth)
+}
+
+func thisDay() {
+	currentDate = fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, currentDay)
+	log.Println(currentDate)
+	tabHaiku.Content = setHaiku()
+	tabs.Select(tabHaiku)
 }
