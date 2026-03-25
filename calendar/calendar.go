@@ -101,6 +101,29 @@ func Month(date, language string) (month string) {
 	return month
 }
 
+func NextMonth(date string) string {
+	t, err := time.Parse("2006-01-02", date)
+	if err != nil {
+		return date
+	}
+	y, m, d := t.Date()
+	y, m, d = time.Date(y, m+1, 1, 0, 0, 0, 0, time.UTC).Date()
+	return fmt.Sprintf("%04d-%02d-%02d", y, int(m), d)
+}
+
+func PreviousMonth(date string) string {
+	t, err := time.Parse("2006-01-02", date)
+	if err != nil {
+		return date
+	}
+	y, m, d := t.Date()
+	y, m, d = time.Date(y, m-1, 1, 0, 0, 0, 0, time.UTC).Date()
+	if m == 12 {
+		y, m, d = time.Date(y-1, 1, 1, 0, 0, 0, 0, time.UTC).Date()
+	}
+	return fmt.Sprintf("%04d-%02d-%02d", y, int(m), d)
+}
+
 func WeekDays(language string) []string {
 	return weekDays[language]
 }
@@ -159,4 +182,9 @@ func CurrentDate() (currentYear, currentMonth, currentDay string) {
 	year, month, day := time.Now().Date()
 	currentYear, currentMonth, currentDay = fmt.Sprintf("%04d", year), fmt.Sprintf("%02d", month), fmt.Sprintf("%02d", day)
 	return currentYear, currentMonth, currentDay
+}
+
+func YyyyMmDd(date string) (y, m, d string) {
+	ymd := strings.Split(date, "-")
+	return ymd[0], ymd[1], ymd[2]
 }

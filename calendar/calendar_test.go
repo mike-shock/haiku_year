@@ -2,6 +2,7 @@ package calendar
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -101,4 +102,25 @@ func TestThisDay(t *testing.T) {
 		t.Errorf("invalid date for '%v': want %v, got %v", date, jp, gotDate)
 	}
 
+}
+
+func TestNextMonth(t *testing.T) {
+	y := 2026
+	m := 3
+	d := 1
+	var d1, d2 = "", ""
+	for m != 2 {
+		d1 = fmt.Sprintf("%04d-%02d-%02d", y, m, d)
+		d2 = NextMonth(d1)
+		fmt.Println(d2)
+		_, mm, _ := YyyyMmDd(d2)
+		m2, _ := strconv.Atoi(mm)
+		if (m < 12) && (m2 != m+1) {
+			t.Errorf("invalid next date: '%v'", d2)
+		}
+		if (m == 12) && (m2 != 1) {
+			t.Errorf("invalid next date: '%v'", d2)
+		}
+		m = m2
+	}
 }

@@ -62,14 +62,22 @@ func iota2string(i int) (s string) {
 
 func Today() (today []Haiku) {
 	kyou := time.Now().Format("2006-01-02") // 今日
-	today, err := loadHaiku(kyou)
-	if err != nil || len(today) == 0 {
-		today, err = pretext(kyou)
-		if err != nil {
-			log.Printf("Today(): %v", err)
-		}
+	today, err := ThisDay(kyou)
+	if err != nil {
+		log.Printf("Today(): %v", err)
 	}
 	return today
+}
+
+func ThisDay(date string) (haiku []Haiku, err error) {
+	haiku, err = loadHaiku(date)
+	if err != nil || len(haiku) == 0 {
+		haiku, err = pretext(date)
+		if err != nil {
+			log.Printf("Haiku for %s: %v", date, err)
+		}
+	}
+	return haiku, err
 }
 
 func IsHaiku(date string) (ok bool) {
