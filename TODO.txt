@@ -1,5 +1,9 @@
-~ GUI program
-- calendar for 1 month
-- navigating from current month to the next or previous one
-- show variants
+~ GUI program @ Fyne
++ calendar for 1 month: generated & shown by given date
++ navigating from current month to the next or previous one
++ show day's haiku (selected from the month's calendar)
++ return to showing today's haiku (after selection a day from the month's calendar)
+- show variants @ demand
 - show drafts
+
+? 4 background images for 4 seasons: Ukiyo-e pictures or photos (of town's pine woods)?

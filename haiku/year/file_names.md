@@ -1,6 +1,6 @@
 # File Names:
 
-haiku/			# text data files  
+haiku/year/			# verses files: 俳句
 &nbsp;    01/			# by months: from January...  
 ...  
 &nbsp;    12/			# ... to December  
@@ -21,6 +21,11 @@ shimo-no-ku 下の句 "lower phrase"\
 [Author]\
 <comments: optional>\
 
+#  kireji ("cutting word") | 切れ字
+Places of (virtual) kireji are very often marked by punctuation symbols,
+but not always.
 
+# Drafts
 
-
+Drauft are included, though at first I didn't follow the rules of haiku verses.
+But they were my humble attemopts to express my feelings at that moment.

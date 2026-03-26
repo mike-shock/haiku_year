@@ -88,9 +88,10 @@ func setCalendar() *fyne.Container {
 	grid := layout.NewGridLayout(calendar.Cols)
 	gridContainer := container.New(grid)
 
-	backButton := widget.NewButtonWithIcon("", theme.NavigateBackIcon(), backMonth) // MediaSkipPreviousIcon
-	nextButton := widget.NewButtonWithIcon("", theme.NavigateNextIcon(), nextMonth) // MediaSkipNextIcon
-	buttons := container.NewHBox(backButton, nextButton)
+	backButton := widget.NewButtonWithIcon("", theme.MediaFastRewindIcon(), backMonth)
+	todayButton := widget.NewButtonWithIcon("", theme.MediaRecordIcon(), nowDay)
+	nextButton := widget.NewButtonWithIcon("", theme.MediaFastForwardIcon(), nextMonth)
+	buttons := container.NewHBox(backButton, todayButton, nextButton)
 
 	c := calendar.NewCalendar(currentDate)
 	days := c.Days()
@@ -145,6 +146,13 @@ func backMonth() {
 
 func thisDay() {
 	currentDate = fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, currentDay)
+	log.Println(currentDate)
+	tabHaiku.Content = setHaiku()
+	tabs.Select(tabHaiku)
+}
+
+func nowDay() {
+	currentDate = calendar.Today("RU")
 	log.Println(currentDate)
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
