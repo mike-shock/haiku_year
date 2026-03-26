@@ -1,2 +1,2 @@
 #!/bin/bash
-fyne package -os linux -icon Icon.png
+fyne package -os linux -icon haiku-year.png

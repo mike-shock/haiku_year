@@ -1,4 +1,4 @@
-total 163340
--rwxr-xr-x 1 t4503 t4503  33105848 мар 26 11:07 haiku_year
--rw-rw-r-- 1 t4503 t4503 118751929 мар 26 11:08 haiku_year.apk
--rw-rw-r-- 1 t4503 t4503  15393892 мар 26 11:07 haiku_year.tar.xz
+total 163472
+-rwxr-xr-x 1 t4503 t4503  33126336 мар 26 17:19 haiku_year
+-rw-rw-r-- 1 t4503 t4503 118842764 мар 26 17:18 haiku_year.apk
+-rw-rw-r-- 1 t4503 t4503  15421376 мар 26 17:19 haiku_year.tar.xz

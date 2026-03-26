@@ -1,1 +1,1 @@
-fyne package -os windows -icon Icon.png
+fyne package -os windows -icon haiku-year.png
