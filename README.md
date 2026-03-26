@@ -8,7 +8,8 @@ Hope it may be interesting for someone, at least for my relatives...
 A GUI application is written in Go (cross-platform for GNU/linux, MS Windows, Android), with the help of Fyne.
 May be run every day to read today's haiku.
 
-I've got some photos and even several short videos illustrating my haiku, but I'll not include 'em.
+I've got some photos and even several short videos illustrating my haiku, but I'll not include 'em,
+for not making binaries too big.
 
 I haven't decided yet: to include or not some early drafts, which don't comply with the rules of haiku poetry.
 
