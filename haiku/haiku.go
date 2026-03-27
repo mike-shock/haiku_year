@@ -16,9 +16,9 @@ import (
 const (
 	HAIKU_PATH = "year"
 
-	DRAFT = iota
-	ALTERNATIVE
-	FINAL
+	DRAFT       = iota // 下書き
+	ALTERNATIVE        // 代替
+	FINAL              // 完了
 )
 
 type Haiku struct { // 俳句
@@ -26,10 +26,10 @@ type Haiku struct { // 俳句
 	month   string // 月
 	year    string // 年
 	text    string // 句
-	author  string
-	comment string
-	variant string // DRAFT .. FINAL
-	version int
+	author  string // 詩人
+	comment string // 言い草
+	variant string // 変異体: DRAFT .. FINAL
+	version int    // 稿
 }
 
 var (
@@ -48,7 +48,7 @@ var variants = []string{
 //go:embed year
 var haikuDir embed.FS
 
-func iota2string(i int) (s string) {
+func iota2string(i int) (s string) { // 号を文に化
 	switch i {
 	case DRAFT:
 		s = "DRAFT"
@@ -60,8 +60,8 @@ func iota2string(i int) (s string) {
 	return s
 }
 
-func Today() (today []Haiku) {
-	kyou := time.Now().Format("2006-01-02") // 今日
+func Today() (today []Haiku) { // 今日
+	kyou := time.Now().Format("2006-01-02")
 	today, err := ThisDay(kyou)
 	if err != nil {
 		log.Printf("Today(): %v", err)
@@ -69,7 +69,7 @@ func Today() (today []Haiku) {
 	return today
 }
 
-func ThisDay(date string) (haiku []Haiku, err error) {
+func ThisDay(date string) (haiku []Haiku, err error) { // この日
 	haiku, err = loadHaiku(date)
 	if err != nil || len(haiku) == 0 {
 		haiku, err = pretext(date)
@@ -80,7 +80,7 @@ func ThisDay(date string) (haiku []Haiku, err error) {
 	return haiku, err
 }
 
-func IsHaiku(date string) (ok bool) {
+func IsHaiku(date string) (ok bool) { // 俳句ですか
 	if err := checkDate(date); err != nil {
 		return false
 	}
@@ -91,34 +91,34 @@ func IsHaiku(date string) (ok bool) {
 	return ok
 }
 
-func NewHaiku(date string) *Haiku {
+func NewHaiku(date string) *Haiku { // 新しい俳句
 	ymd := strings.Split(date, "-")
 	h := Haiku{day: fmt.Sprintf("%02s", ymd[2]), month: fmt.Sprintf("%02s", ymd[1])}
 	return &h
 }
 
-func (h Haiku) Date() string {
+func (h Haiku) Date() string { // 日付
 	return fmt.Sprintf("%04s-%02s-%02s", h.year, h.month, h.day)
 }
 
-func (h Haiku) Verse() string {
+func (h Haiku) Verse() string { // 詩
 	return h.text
 }
 
-func (h Haiku) Author() string {
+func (h Haiku) Author() string { // 詩人
 	return h.author
 }
 
-func (h Haiku) Comment() string {
+func (h Haiku) Comment() string { // 言い草
 	return h.comment
 }
 
-func (h Haiku) print() {
+func (h Haiku) print() { // 刷る
 	fmt.Printf("%s\tDate: %s.%s.%s\n\tAuthor: %s\n\tComment: %s\n\tVariant: %v\n\tVersion: %v\n-------------------------\n",
 		h.text, h.day, h.month, h.year, h.author, h.comment, h.variant, h.version)
 }
 
-func (h *Haiku) splitText(content string) {
+func (h *Haiku) splitText(content string) { // 本書を分
 	lines := strings.Split(content, "\n")
 	text := ""
 	for i := 0; i < len(lines); i++ {
@@ -133,7 +133,7 @@ func (h *Haiku) splitText(content string) {
 	h.comment = findComment(content)
 }
 
-func pretext(date string) (unwritten []Haiku, err error) {
+func pretext(date string) (unwritten []Haiku, err error) { // 代わり
 	unwritten = []Haiku{}
 	h, err := readHaiku("0000-00-00", filepath.Join(HAIKU_PATH, "00"), "00-00.txt")
 	if err != nil {
@@ -147,7 +147,7 @@ func pretext(date string) (unwritten []Haiku, err error) {
 	return unwritten, err
 }
 
-func loadHaiku(date string) (list []Haiku, err error) {
+func loadHaiku(date string) (list []Haiku, err error) { // 俳句を引
 	list = []Haiku{}
 	err = checkDate(date)
 	if err != nil {
@@ -168,7 +168,7 @@ func loadHaiku(date string) (list []Haiku, err error) {
 	return list, nil
 }
 
-func readHaiku(date, filePath, fileName string) (h *Haiku, err error) {
+func readHaiku(date, filePath, fileName string) (h *Haiku, err error) { // 俳句を読む
 	h = NewHaiku(date)
 	t, err := readFile(filepath.Join(filePath, fileName))
 	if err != nil {
@@ -180,7 +180,7 @@ func readHaiku(date, filePath, fileName string) (h *Haiku, err error) {
 	return h, nil
 }
 
-func readFile(filePath string) (content string, err error) {
+func readFile(filePath string) (content string, err error) { // ファイルを読む
 	if err = checkFile(filePath); err != nil {
 		return "", err
 	}
@@ -191,7 +191,7 @@ func readFile(filePath string) (content string, err error) {
 	return string(data), nil
 }
 
-func checkFile(filePath string) (err error) {
+func checkFile(filePath string) (err error) { // ファイルを質す
 	file, err := haikuDir.Open(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -202,7 +202,7 @@ func checkFile(filePath string) (err error) {
 	return err
 }
 
-func date2path(date string) (filePath string) {
+func date2path(date string) (filePath string) { // 日付を道に化す
 	ymd := strings.Split(date, "-")
 	fp := filepath.Join(HAIKU_PATH, ymd[1])
 	fn := fmt.Sprintf("%02s-%02s.txt", ymd[1], ymd[2])
@@ -210,7 +210,7 @@ func date2path(date string) (filePath string) {
 	return filePath
 }
 
-func checkDate(date string) (err error) {
+func checkDate(date string) (err error) { // 日付を質す
 	if date == "" {
 		return EmptyDateError
 	}
@@ -248,7 +248,7 @@ func checkDate(date string) (err error) {
 	return nil
 }
 
-func findDate(content string) (day, month, year string) {
+func findDate(content string) (day, month, year string) { // 日付を探す
 	re := regexp.MustCompile(`{(\d+)[.](\d+)[.](\d+)}`)
 	matches := re.FindStringSubmatch(content)
 	if len(matches) == 4 {
@@ -259,7 +259,7 @@ func findDate(content string) (day, month, year string) {
 	return day, month, year
 }
 
-func findAuthor(content string) (author string) {
+func findAuthor(content string) (author string) { // 詩人を探す
 	re := regexp.MustCompile(`\[([^[]+)\]`)
 	matches := re.FindStringSubmatch(content)
 	if len(matches) == 2 {
@@ -271,7 +271,7 @@ func findAuthor(content string) (author string) {
 	return author
 }
 
-func findComment(content string) (comment string) {
+func findComment(content string) (comment string) { // 言い草を探す
 	re := regexp.MustCompile(`<([^>]+)>`)
 	matches := re.FindStringSubmatch(content)
 	if len(matches) == 2 {
@@ -280,7 +280,7 @@ func findComment(content string) (comment string) {
 	return comment
 }
 
-func findVariant(fileName string) (variant string, version int) {
+func findVariant(fileName string) (variant string, version int) { //  変異体を探す
 	dateAndVersion := strings.Split(fileName, "_")
 	if len(dateAndVersion) == 2 {
 		n := strings.Replace(dateAndVersion[1], ".txt", "", -1)

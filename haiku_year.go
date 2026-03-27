@@ -19,9 +19,9 @@ import (
 
 var (
 	windowWidth, windowHeight             float32 = 280, 320
-	todayHaiku                            []haiku.Haiku
-	currentYear, currentMonth, currentDay string
-	currentDate, selectedDate             string
+	todayHaiku                            []haiku.Haiku // 今日の俳句
+	currentYear, currentMonth, currentDay string // 現在の年、現在の月、現在の日
+	currentDate, selectedDate             string // 現在の日付
 	tabs                                  *container.AppTabs
 	tabHaiku, tabMonth                    *container.TabItem
 )
