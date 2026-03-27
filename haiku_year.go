@@ -18,10 +18,10 @@ import (
 )
 
 var (
-	windowWidth, windowHeight             float32 = 280, 320
+	windowWidth, windowHeight             float32       = 280, 320
 	todayHaiku                            []haiku.Haiku // 今日の俳句
-	currentYear, currentMonth, currentDay string // 現在の年、現在の月、現在の日
-	currentDate, selectedDate             string // 現在の日付
+	currentYear, currentMonth, currentDay string        // 現在の年、現在の月、現在の日
+	currentDate, selectedDate             string        // 現在の日付
 	tabs                                  *container.AppTabs
 	tabHaiku, tabMonth                    *container.TabItem
 )
@@ -91,7 +91,7 @@ func setCalendar() *fyne.Container {
 	backButton := widget.NewButtonWithIcon("", theme.MediaFastRewindIcon(), backMonth)
 	todayButton := widget.NewButtonWithIcon("", theme.MediaRecordIcon(), nowDay)
 	nextButton := widget.NewButtonWithIcon("", theme.MediaFastForwardIcon(), nextMonth)
-	buttons := container.NewHBox(backButton, todayButton, nextButton)
+	buttons := container.NewHBox(layout.NewSpacer(), backButton, todayButton, nextButton, layout.NewSpacer())
 
 	c := calendar.NewCalendar(currentDate)
 	days := c.Days()
