@@ -1,8 +1,6 @@
 package haiku
 
 import (
-	//	"fmt"
-	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -50,7 +48,7 @@ var (
 )
 
 func TestIsHaiku(t *testing.T) {
-	testDateYes, testDateNo, testDateNone := "2026-01-01", "2026-01-31", "2026-03-32"
+	testDateYes, testDateNo, testDateNone := "2026-01-01", "2026-01-30", "2026-03-32"
 	yes := IsHaiku(testDateYes)
 	if !yes {
 		t.Errorf("there should be a haiku for %v", testDateYes)
@@ -129,10 +127,10 @@ func TestCheckDate(t *testing.T) {
 func TestReadFile(t *testing.T) {
 	testMonth1 := "05"
 	testFile1 := "05-07.txt"
-	filePath1 := filepath.Join(HAIKU_PATH, testMonth1, testFile1)
+	filePath1 := fullFileName(testMonth1, testFile1)
 	content, err := readFile(filePath1)
 	if err != nil {
-		t.Errorf("can't read the file: %v", testFile1)
+		t.Errorf("can't read the file: %v", filePath1)
 	}
 	if len(content) == 0 {
 		t.Errorf("empty content!")
