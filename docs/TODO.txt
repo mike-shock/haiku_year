@@ -3,7 +3,6 @@
 + navigating from current month to the next or previous one
 + show day's haiku (selected from the month's calendar)
 + return to showing today's haiku (after selection a day from the month's calendar)
-- show variants @ demand
-- show drafts
++ show variants & drafts @ demand
 
 ? 4 background images for 4 seasons: Ukiyo-e pictures or my photos (of town's pine woods)?

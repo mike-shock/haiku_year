@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -36,7 +35,7 @@ var (
 	EmptyDateError    = errors.New("empty date")
 	InvalidDateError  = errors.New("invalid date")
 	BadDelimiterError = errors.New("bad date delimiter")
-	TextMissingError  = errors.New("haiku text missing")
+	//TextMissingError  = errors.New("haiku text missing")
 )
 
 var variants = []string{
@@ -192,14 +191,9 @@ func readFile(fileName string) (content string, err error) { // ファイルを�
 }
 
 func checkFile(fileName string) (err error) { // ファイルを質す
-	//files, err := haikuDir.ReadDir(HAIKU_PATH)
-	//log.Printf("%v %v", files, err)
 	file, err := haikuDir.Open(fileName)
 	if err != nil {
-		return err // Windows
-		if os.IsNotExist(err) {
-			return TextMissingError
-		}
+		return err
 	}
 	defer file.Close()
 	return err
@@ -213,7 +207,6 @@ func date2path(date string) (filePath string) { // 日付を道に化す
 }
 
 func fullFileName(month, file string) (filePathAndName string) { //
-	//filePathAndName := filepath.Join(HAIKU_PATH, month, file)
 	filePathAndName = fmt.Sprintf("%s/%s/%s", HAIKU_PATH, month, file)
 	return filePathAndName
 }

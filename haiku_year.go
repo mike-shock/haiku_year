@@ -20,6 +20,7 @@ import (
 var (
 	windowWidth, windowHeight             float32       = 280, 320
 	todayHaiku                            []haiku.Haiku // 今日の俳句
+	todayHaikuIndex                       int           = 0
 	currentYear, currentMonth, currentDay string        // 現在の年、現在の月、現在の日
 	currentDate, selectedDate             string        // 現在の日付
 	tabs                                  *container.AppTabs
@@ -55,22 +56,26 @@ func setHaiku() *fyne.Container {
 	todayDate := calendar.ThisDay(currentDate, "RU") + " | " + calendar.ThisDay(currentDate, "JP")
 	finalText, haikuDate, haikuComment, haikuAuthor := "", "", "", ""
 	todayHaiku, _ = haiku.ThisDay(currentDate)
-	if len(todayHaiku) > 0 {
-		finalText = todayHaiku[0].Verse()
-		haikuDate = todayHaiku[0].Date()
-		haikuComment = todayHaiku[0].Comment()
-		haikuAuthor = todayHaiku[0].Author()
+
+	headerLabel := widget.NewLabel(fmt.Sprintf("%s\n%s\n", todaySeason, todayDate))
+	moreButton := widget.NewButtonWithIcon("", theme.MoreHorizontalIcon(), nextVerse)
+	header := container.NewHBox(headerLabel)
+	if len(todayHaiku) > 1 {
+		header.Add(moreButton)
 	}
 
-	headerText := fmt.Sprintf("%s\n%s\n", todaySeason, todayDate)
-	headerLabel := widget.NewLabel(headerText)
-
+	if len(todayHaiku) > 0 {
+		finalText = todayHaiku[todayHaikuIndex].Verse()
+		haikuDate = todayHaiku[todayHaikuIndex].Date()
+		haikuComment = todayHaiku[todayHaikuIndex].Comment()
+		haikuAuthor = todayHaiku[todayHaikuIndex].Author()
+	}
 	verseText := widget.NewLabelWithStyle(finalText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
+	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
+	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
+	currentVerse := container.NewVBox(verseText, infoLabel)
 
-	footerText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
-	footerLabel := widget.NewLabelWithStyle(footerText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
-
-	box := container.NewVBox(headerLabel, verseText, footerLabel)
+	box := container.NewVBox(header, currentVerse)
 	return box
 }
 
@@ -147,6 +152,7 @@ func backMonth() {
 func thisDay() {
 	currentDate = fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, currentDay)
 	log.Println(currentDate)
+	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
 }
@@ -154,6 +160,22 @@ func thisDay() {
 func nowDay() {
 	currentDate = calendar.Today("RU")
 	log.Println(currentDate)
+	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
+}
+
+func nextVerse() {
+	currentIndex := todayHaikuIndex
+	if len(todayHaiku) > 1 {
+		todayHaikuIndex++
+		if todayHaikuIndex == len(todayHaiku) {
+			todayHaikuIndex = 0
+		}
+		if todayHaikuIndex != currentIndex {
+			tabHaiku.Content = setHaiku()
+			//tabs.Select(tabHaiku)
+		}
+	}
+
 }
