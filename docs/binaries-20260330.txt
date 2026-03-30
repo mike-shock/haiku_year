@@ -1,0 +1,6 @@
+total 224844
+-rwxr-xr-x 1 t4503 t4503  33131624 мар 30 08:34 haiku_year
+-rw-rw-r-- 1 t4503 t4503 118845572 мар 30 08:34 haiku_year.apk
+-rwxrwxrwx 1 t4503 t4503  45004339 мар 28 15:57 haiku_year.exe
+-rw-rw-r-- 1 t4503 t4503  15422716 мар 30 08:34 haiku_year.tar.xz
+-rwxrwxrwx 1 t4503 t4503  17821746 мар 28 16:00 haiku_year.zip
