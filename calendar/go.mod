@@ -1,3 +1,3 @@
 module haiku_year/calendar
 
-go 1.26.1
+go 1.24.6
