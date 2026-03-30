@@ -30,6 +30,11 @@ var (
 		"EN": []string{"", "Spring", "Summer", "Autumn", "Winter"},
 		"JP": []string{"", "春", "夏", "秋", "冬"},
 	}
+	formats = map[string]string{
+		"RU": "%04d-%02d-%02d",
+		//		"EN": "",
+		"JP": "%04s年%02s月%02s日",
+	}
 )
 
 type Calendar struct { // 暦
@@ -40,7 +45,6 @@ type Calendar struct { // 暦
 }
 
 func NewCalendar(date string) Calendar {
-	log.Println(date)
 	c := Calendar{date: date}
 	ymd, err := time.Parse(dateFormat, date)
 	if err != nil {
@@ -54,7 +58,7 @@ func NewCalendar(date string) Calendar {
 }
 
 func Today(language string) (date string) {
-	today := time.Now().Format("2006-01-02") // 今日
+	today := time.Now().Format(dateFormat) // 今日
 	date = ThisDay(today, language)
 	return date
 }
@@ -65,7 +69,7 @@ func ThisDay(someDate, language string) (date string) {
 		date = someDate // YYYY-MM-DD
 	case "JP":
 		ymd := strings.Split(someDate, "-")
-		date = fmt.Sprintf("%04s年%02s月%02s日", ymd[0], ymd[1], ymd[2])
+		date = fmt.Sprintf(formats["JP"], ymd[0], ymd[1], ymd[2])
 	}
 	return date
 }
@@ -102,13 +106,13 @@ func Month(date, language string) (month string) {
 }
 
 func NextMonth(date string) string {
-	t, err := time.Parse("2006-01-02", date)
+	t, err := time.Parse(dateFormat, date)
 	if err != nil {
 		return date
 	}
 	y, m, d := t.Date()
 	y, m, d = time.Date(y, m+1, 1, 0, 0, 0, 0, time.UTC).Date()
-	return fmt.Sprintf("%04d-%02d-%02d", y, int(m), d)
+	return fmt.Sprintf(formats["RU"], y, int(m), d)
 }
 
 func PreviousMonth(date string) string {
@@ -122,7 +126,7 @@ func PreviousMonth(date string) string {
 	} else {
 		y, m, d = time.Date(y, m-1, 1, 0, 0, 0, 0, time.UTC).Date()
 	}
-	return fmt.Sprintf("%04d-%02d-%02d", y, int(m), d)
+	return fmt.Sprintf(formats["RU"], y, int(m), d)
 }
 
 func WeekDays(language string) []string {
