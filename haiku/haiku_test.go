@@ -28,7 +28,6 @@ var (
 		TestDatum{"", 0, EmptyDateError, nil},
 		TestDatum{"-", 0, BadDelimiterError, nil},
 		TestDatum{"1976.04.05", 0, BadDelimiterError, nil},
-		TestDatum{"0000-00-00", 0, InvalidDateError, nil},
 		TestDatum{"0-1-1", 0, InvalidDateError, nil},
 		TestDatum{"1-0-1", 0, InvalidDateError, nil},
 		TestDatum{"1-1-0", 0, InvalidDateError, nil},
@@ -43,6 +42,7 @@ var (
 		TestDatum{"2022-12-31", 1, nil, nil},
 		TestDatum{"9999-12-32", 0, InvalidDateError, nil},
 		TestDatum{"8888-13-01", 0, InvalidDateError, nil},
+		TestDatum{"0000-00-00", 3, nil, nil},
 	}
 	testDate = "2022-03-07"
 )
@@ -145,6 +145,7 @@ func TestLoadHaiku(t *testing.T) {
 				if err != td.outputError {
 					t.Errorf("unexpected error while reading by date: %v", err)
 				}
+				t.Errorf("output error while reading by date: %v", err)
 			}
 			if len(h) != td.outputPositive {
 				t.Errorf("unexpected number of text variants: %v != %v", len(h), td.outputPositive)

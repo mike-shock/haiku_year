@@ -32,7 +32,7 @@ var (
 	}
 	formats = map[string]string{
 		"RU": "%04d-%02d-%02d",
-		//		"EN": "",
+		//		"EN": "%04d-%02d-%02d",
 		"JP": "%04s年%02s月%02s日",
 	}
 )

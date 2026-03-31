@@ -1,8 +1,5 @@
-total 181072
--rw-rw-r-- 1 t4503 t4503         0 мар 30 17:41 binaries.txt
-drwxr-xr-x 5 t4503 t4503        40 мар 30 16:19 fyne-cross
--rwxr-xr-x 1 t4503 t4503  33131856 мар 30 10:31 haiku_year
--rw-rw-r-- 1 t4503 t4503 100371144 мар 30 17:40 haiku_year.apk
--rwxr-xr-x 1 t4503 t4503  24783872 мар 30 17:37 haiku_year.exe
--rw-r--r-- 1 t4503 t4503  11696017 мар 30 17:37 haiku_year.exe.zip
--rw-rw-r-- 1 t4503 t4503  15426056 мар 30 17:40 haiku_year.tar.xz
+-rwxr-xr-x 1 t4503 t4503  33980224 мар 31 18:06 /home/t4503/D/tmp/haiku_year
+-rw-rw-r-- 1 t4503 t4503 103748540 мар 31 18:06 /home/t4503/D/tmp/haiku_year.apk
+-rwxr-xr-x 1 t4503 t4503  25628160 мар 31 17:59 /home/t4503/D/tmp/haiku_year.exe
+-rw-r--r-- 1 t4503 t4503  11696017 мар 30 17:37 /home/t4503/D/tmp/haiku_year.exe.zip
+-rw-rw-r-- 1 t4503 t4503  16272064 мар 31 18:06 /home/t4503/D/tmp/haiku_year.tar.xz

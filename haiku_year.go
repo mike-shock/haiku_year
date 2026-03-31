@@ -18,6 +18,8 @@ import (
 	"haiku_year/haiku"
 )
 
+const formatDate = "%04s-%02s-%02s"
+
 var (
 	windowWidth, windowHeight             float32       = 280, 320
 	todayHaiku                            []haiku.Haiku // 今日の俳句
@@ -36,6 +38,7 @@ func main() {
 	currentDate = calendar.Today("RU")
 	todayHaiku = haiku.Today()
 	a := app.New()
+	a.Settings().SetTheme(theme.DarkTheme())
 	w := a.NewWindow("Год хайку | 俳句の年")
 
 	tabs = container.NewAppTabs()
@@ -81,7 +84,7 @@ func setHaiku() *fyne.Container {
 
 	box := container.NewVBox(header, currentVerse)
 
-	background := embeddedFile(calendar.Season(currentDate, "EN") + ".png")
+	background := embeddedImage()
 	content := container.New(layout.NewStackLayout(), background, box)
 
 	return content
@@ -94,7 +97,7 @@ func tabCalendar() *fyne.Container {
 
 func setCalendar() *fyne.Container {
 	currentDate = currentYear + "-" + currentMonth + "-" + currentDay
-	fmt.Println("setCalendar", currentDate, currentYear, currentMonth, currentDay)
+	//fmt.Println("setCalendar", currentDate, currentYear, currentMonth, currentDay)
 	monthText := calendar.Month(currentDate, "RU") + " | " + calendar.Month(currentDate, "JP")
 	monthLabel := widget.NewLabelWithStyle(monthText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 
@@ -123,7 +126,7 @@ func setCalendar() *fyne.Container {
 					currentDay = d
 					thisDay()
 				})
-				date := fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, d)
+				date := fmt.Sprintf(formatDate, currentYear, currentMonth, d)
 				if haiku.IsHaiku(date) {
 					b.Importance = widget.HighImportance
 				}
@@ -143,23 +146,23 @@ func setCalendar() *fyne.Container {
 func nextMonth() {
 	currentDate = calendar.NextMonth(currentDate)
 	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
-	log.Println("Next:", currentDate)
+	//log.Println("Next:", currentDate)
 	tabMonth.Content = setCalendar()
 	tabs.Select(tabMonth)
 }
 
 func backMonth() {
-	cD := currentDate
+	//cD := currentDate
 	currentDate := calendar.PreviousMonth(currentDate)
 	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
-	log.Println("Previous:", cD, "-->", currentDate)
+	//log.Println("Previous:", cD, "-->", currentDate)
 	tabMonth.Content = setCalendar()
 	tabs.Select(tabMonth)
 }
 
 func thisDay() {
-	currentDate = fmt.Sprintf("%04s-%02s-%02s", currentYear, currentMonth, currentDay)
-	log.Println(currentDate)
+	currentDate = fmt.Sprintf(formatDate, currentYear, currentMonth, currentDay)
+	//log.Println(currentDate)
 	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
@@ -167,7 +170,7 @@ func thisDay() {
 
 func nowDay() {
 	currentDate = calendar.Today("RU")
-	log.Println(currentDate)
+	//log.Println(currentDate)
 	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
@@ -187,7 +190,8 @@ func nextVerse() {
 
 }
 
-func embeddedFile(fileName string) *canvas.Image {
+func embeddedImage() *canvas.Image {
+	fileName := calendar.Season(currentDate, "EN") + ".png"
 	file, err := imagesDir.Open("images/" + fileName)
 	if err != nil {
 		log.Fatal(err)

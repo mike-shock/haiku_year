@@ -18,3 +18,5 @@ rm -dr $OUT/usr/
 
 ls -l $OUT/haiku* > $OUT/$LOG
 cp $OUT/$LOG $DOC
+
+# mv fyne-cross

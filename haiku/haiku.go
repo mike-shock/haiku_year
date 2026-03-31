@@ -35,7 +35,7 @@ var (
 	EmptyDateError    = errors.New("empty date")
 	InvalidDateError  = errors.New("invalid date")
 	BadDelimiterError = errors.New("bad date delimiter")
-	//TextMissingError  = errors.New("haiku text missing")
+	TextMissingError  = errors.New("haiku text missing")
 )
 
 var variants = []string{
@@ -212,6 +212,9 @@ func fullFileName(month, file string) (filePathAndName string) { //
 }
 
 func checkDate(date string) (err error) { // 日付を質す
+	if date == "0000-00-00" { // special "default" date
+		return nil
+	}
 	if date == "" {
 		return EmptyDateError
 	}

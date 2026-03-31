@@ -5,17 +5,17 @@
 === RUN   TestPretextHaiku
 --- PASS: TestPretextHaiku (0.00s)
 === RUN   TestTodayHaiku
-Не прилетают
-воробьи на кормушку:
-весна на дворе.
+Как же поверить,
+что уже не услышу
+тебя никогда?
 
-	Date: 28.03.2026
+	Date: 31.03.2022
 	Author: Mike
 	Comment: 
 	Variant: FINAL
 	Version: 0
 -------------------------
---- PASS: TestTodayHaiku (0.01s)
+--- PASS: TestTodayHaiku (0.00s)
 === RUN   TestSplitText
 --- PASS: TestSplitText (0.00s)
 === RUN   TestCheckDate
@@ -127,7 +127,8 @@ and the sky is starless.
 
 	Date: 06.03.2004
 	Author: Mike
-	Comment: по дороге на работу по улице Свердлова
+	Comment: по дороге на работу
+по улице Свердлова
 	Variant: FINAL
 	Version: 0
 -------------------------
@@ -161,6 +162,36 @@ and the sky is starless.
 	Variant: FINAL
 	Version: 0
 -------------------------
+Без настроенья
+хайку не сочинится,
+как ни старайся!
+
+	Date: 00.00.0000
+	Author: Mike
+	Comment: На этот день хайку пока нет...
+	Variant: FINAL
+	Version: 0
+-------------------------
+Сочинить хайку
+и на этот день тоже
+я хотел. Не успел.
+
+	Date: 00.00.0000
+	Author: Mike
+	Comment: 
+	Variant: FINAL
+	Version: 0
+-------------------------
+Хайку сегодня
+не могу сочинить я:
+нет настроенья.
+
+	Date: 01.02.2025
+	Author: Mike
+	Comment: 
+	Variant: ALTERNATIVE
+	Version: 1
+-------------------------
 --- PASS: TestLoadHaiku (0.00s)
 === RUN   TestFindDate
 --- PASS: TestFindDate (0.00s)
@@ -173,4 +204,4 @@ and the sky is starless.
 === RUN   TestDate2Path
 --- PASS: TestDate2Path (0.00s)
 PASS
-ok  	haiku_year/haiku	0.191s
+ok  	haiku_year/haiku	0.002s

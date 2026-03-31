@@ -1,0 +1,9 @@
+-rwxr-xr-x 1 t4503 t4503  33131856 мар 30 10:31 haiku_year
+-rw-rw-r-- 1 t4503 t4503  15426056 мар 30 17:40 haiku_year.tar.xz
+
+-rw-rw-r-- 1 t4503 t4503 100371144 мар 30 17:40 haiku_year.apk # with --release flag, without pictures
+-rw-rw-r-- 1 t4503 t4503 103759592 мар 31 15:18 haiku_year.apk # with pictures in .png
+-rw-rw-r-- 1 t4503 t4503 104071512 мар 31 17:28 haiku_year.apk # with pictures in .webp
+
+-rwxr-xr-x 1 t4503 t4503  24783872 мар 30 17:37 haiku_year.exe
+-rw-r--r-- 1 t4503 t4503  11696017 мар 30 17:37 haiku_year.exe.zip

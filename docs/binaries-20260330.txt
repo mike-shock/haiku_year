@@ -1,7 +1,0 @@
--rwxr-xr-x 1 t4503 t4503  33131856 мар 30 10:31 haiku_year
--rw-rw-r-- 1 t4503 t4503  15426056 мар 30 17:40 haiku_year.tar.xz
-
--rw-rw-r-- 1 t4503 t4503 100371144 мар 30 17:40 haiku_year.apk
-
--rwxr-xr-x 1 t4503 t4503  24783872 мар 30 17:37 haiku_year.exe
--rw-r--r-- 1 t4503 t4503  11696017 мар 30 17:37 haiku_year.exe.zip
