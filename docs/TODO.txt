@@ -5,4 +5,8 @@
 + return to showing today's haiku (after selection a day from the month's calendar)
 + show variants & drafts @ demand
 
-? 4 background images for 4 seasons: Ukiyo-e pictures or my photos (of town's pine woods)?
+~ 4 background images for 4 seasons
+  + Ukiyo-e pictures of nature (Hokusai?)
+  + birds?
+  - my photos (of town's pine woods)?
+

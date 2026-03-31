@@ -1,13 +1,14 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 
-	//	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
@@ -26,6 +27,9 @@ var (
 	tabs                                  *container.AppTabs
 	tabHaiku, tabMonth                    *container.TabItem
 )
+
+//go:embed images
+var imagesDir embed.FS
 
 func main() {
 	currentYear, currentMonth, currentDay = calendar.CurrentDate()
@@ -76,7 +80,11 @@ func setHaiku() *fyne.Container {
 	currentVerse := container.NewVBox(verseText, infoLabel)
 
 	box := container.NewVBox(header, currentVerse)
-	return box
+
+	background := embeddedFile(calendar.Season(currentDate, "EN") + ".png")
+	content := container.New(layout.NewStackLayout(), background, box)
+
+	return content
 }
 
 func tabCalendar() *fyne.Container {
@@ -174,8 +182,18 @@ func nextVerse() {
 		}
 		if todayHaikuIndex != currentIndex {
 			tabHaiku.Content = setHaiku()
-			//tabs.Select(tabHaiku)
 		}
 	}
 
+}
+
+func embeddedFile(fileName string) *canvas.Image {
+	file, err := imagesDir.Open("images/" + fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	i := canvas.NewImageFromReader(file, fileName)
+	i.FillMode = canvas.ImageFillOriginal
+	return i
 }

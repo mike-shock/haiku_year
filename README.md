@@ -14,6 +14,6 @@ no to make binaries too big.
 
 I haven't decided yet: to include or not some early drafts, which don't comply with the rules of haiku poetry.
 
-Mike Shock | Mikhail V. Shokhirev | 山口 見葉色.
+Mike Shock | Mikhail V. Shokhirev | 山口 見葉色 | Yamaguchi Mihairo
 
 
