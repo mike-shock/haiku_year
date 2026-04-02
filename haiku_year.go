@@ -3,6 +3,8 @@ package main
 import (
 	"embed"
 	"fmt"
+	"image"
+	"image/color"
 	"log"
 
 	"fyne.io/fyne/v2"
@@ -21,6 +23,7 @@ import (
 const formatDate = "%04s-%02s-%02s"
 
 var (
+	a                                     fyne.App
 	windowWidth, windowHeight             float32       = 280, 320
 	todayHaiku                            []haiku.Haiku // 今日の俳句
 	todayHaikuIndex                       int           = 0
@@ -28,6 +31,9 @@ var (
 	currentDate, selectedDate             string        // 現在の日付
 	tabs                                  *container.AppTabs
 	tabHaiku, tabMonth                    *container.TabItem
+	imageCheckBox                         *widget.Check
+	backgroundImage                       *canvas.Image
+	darkTheme                             bool = true
 )
 
 //go:embed images
@@ -37,16 +43,19 @@ func main() {
 	currentYear, currentMonth, currentDay = calendar.CurrentDate()
 	currentDate = calendar.Today("RU")
 	todayHaiku = haiku.Today()
-	a := app.New()
+	a = app.New()
 	a.Settings().SetTheme(theme.DarkTheme())
 	w := a.NewWindow("Год хайку | 俳句の年")
+	setDefaults()
 
 	tabs = container.NewAppTabs()
 	w.SetContent(tabs)
 	tabHaiku = container.NewTabItem("Сегодня | 今日", tabToday())
 	tabMonth = container.NewTabItem("Календарь | 暦", tabCalendar())
+	tabSettings := container.NewTabItemWithIcon("", theme.SettingsIcon(), tabOptions())
 	tabs.Append(tabHaiku)
 	tabs.Append(tabMonth)
+	tabs.Append(tabSettings)
 
 	w.Resize(fyne.NewSize(windowWidth, windowHeight))
 	w.CenterOnScreen()
@@ -70,23 +79,27 @@ func setHaiku() *fyne.Container {
 	if len(todayHaiku) > 1 {
 		header.Add(moreButton)
 	}
-
 	if len(todayHaiku) > 0 {
 		finalText = todayHaiku[todayHaikuIndex].Verse()
 		haikuDate = todayHaiku[todayHaikuIndex].Date()
 		haikuComment = todayHaiku[todayHaikuIndex].Comment()
 		haikuAuthor = todayHaiku[todayHaikuIndex].Author()
 	}
+
+	//log.Printf("imageCheckBox.Checked: %v, darkTheme: %v", imageCheckBox.Checked, darkTheme)
+	if imageCheckBox.Checked {
+		backgroundImage = embeddedImage()
+	} else {
+		backgroundImage = colorImage()
+	}
+
 	verseText := widget.NewLabelWithStyle(finalText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
 	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
 	currentVerse := container.NewVBox(verseText, infoLabel)
-
 	box := container.NewVBox(header, currentVerse)
 
-	background := embeddedImage()
-	content := container.New(layout.NewStackLayout(), background, box)
-
+	content := container.New(layout.NewStackLayout(), backgroundImage, box)
 	return content
 }
 
@@ -97,7 +110,6 @@ func tabCalendar() *fyne.Container {
 
 func setCalendar() *fyne.Container {
 	currentDate = currentYear + "-" + currentMonth + "-" + currentDay
-	//fmt.Println("setCalendar", currentDate, currentYear, currentMonth, currentDay)
 	monthText := calendar.Month(currentDate, "RU") + " | " + calendar.Month(currentDate, "JP")
 	monthLabel := widget.NewLabelWithStyle(monthText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 
@@ -115,7 +127,6 @@ func setCalendar() *fyne.Container {
 	for _, wd := range calendar.WeekDays("RU") {
 		gridContainer.Add(widget.NewLabel(wd))
 	}
-
 	for row := 0; row < calendar.Rows; row++ {
 		for col := 0; col < calendar.Cols; col++ {
 			d := days[row][col]
@@ -134,7 +145,6 @@ func setCalendar() *fyne.Container {
 			}
 		}
 	}
-
 	for _, wd := range calendar.WeekDays("JP") {
 		gridContainer.Add(widget.NewLabel(wd))
 	}
@@ -143,26 +153,68 @@ func setCalendar() *fyne.Container {
 	return box
 }
 
+func tabOptions() fyne.CanvasObject {
+	content := setOptions()
+	return content
+}
+
+func setOptions() *fyne.Container {
+	labelTheme := widget.NewLabel("Theme | テーマ")
+	themeButtons := container.NewGridWithColumns(2,
+		widget.NewButtonWithIcon("Dark | 黒", theme.RadioButtonCheckedIcon(), func() { setTheme(true) }),
+		widget.NewButtonWithIcon("Light | 白", theme.RadioButtonIcon(), func() { setTheme(false) }),
+	)
+	labelImage := widget.NewLabel("Images | 画")
+	content := container.NewVBox(labelTheme, themeButtons, labelImage, imageCheckBox)
+	return content
+}
+
+func setTheme(dark bool) {
+	darkTheme = dark
+	if darkTheme {
+		a.Settings().SetTheme(theme.DarkTheme())
+	} else {
+		a.Settings().SetTheme(theme.LightTheme())
+	}
+	thisDay()
+}
+
+func setDefaults() {
+	imageCheckBox = widget.NewCheck("Visible | 見", func(value bool) {
+		//log.Printf("imageCheckBox.Checked: %v, darkTheme: %v", imageCheckBox.Checked, darkTheme)
+		setImage(value)
+	})
+	//imageCheckBox.OnChanged = setImage
+	imageCheckBox.Checked = true
+}
+
+func setImage(visible bool) {
+	/*
+		if imageCheckBox.Checked {
+			backgroundImage = embeddedImage()
+		} else {
+			backgroundImage = colorImage()
+		}
+	*/
+	thisDay()
+}
+
 func nextMonth() {
 	currentDate = calendar.NextMonth(currentDate)
 	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
-	//log.Println("Next:", currentDate)
 	tabMonth.Content = setCalendar()
 	tabs.Select(tabMonth)
 }
 
 func backMonth() {
-	//cD := currentDate
 	currentDate := calendar.PreviousMonth(currentDate)
 	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
-	//log.Println("Previous:", cD, "-->", currentDate)
 	tabMonth.Content = setCalendar()
 	tabs.Select(tabMonth)
 }
 
 func thisDay() {
 	currentDate = fmt.Sprintf(formatDate, currentYear, currentMonth, currentDay)
-	//log.Println(currentDate)
 	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
@@ -170,7 +222,6 @@ func thisDay() {
 
 func nowDay() {
 	currentDate = calendar.Today("RU")
-	//log.Println(currentDate)
 	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
 	tabs.Select(tabHaiku)
@@ -187,7 +238,6 @@ func nextVerse() {
 			tabHaiku.Content = setHaiku()
 		}
 	}
-
 }
 
 func embeddedImage() *canvas.Image {
@@ -198,6 +248,23 @@ func embeddedImage() *canvas.Image {
 	}
 	defer file.Close()
 	i := canvas.NewImageFromReader(file, fileName)
+	i.FillMode = canvas.ImageFillOriginal
+	return i
+}
+
+func colorImage() *canvas.Image {
+	width, height := int(windowWidth), int(windowHeight)
+	p := image.NewRGBA(image.Rect(0, 0, width, height))
+	c := color.White
+	if darkTheme {
+		c = color.Black
+	}
+	for x := 0; x < width; x++ {
+		for y := 0; y < height; y++ {
+			p.Set(x, y, c)
+		}
+	}
+	i := canvas.NewImageFromImage(p)
 	i.FillMode = canvas.ImageFillOriginal
 	return i
 }
