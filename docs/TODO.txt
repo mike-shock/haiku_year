@@ -4,14 +4,18 @@
 + show day's haiku (selected from the month's calendar)
 + return to showing today's haiku (after selection a day from the month's calendar)
 + show variants & drafts @ demand
-- smaller size of picrures: png --> webp?
++ build scripts (Android, Linux, Windows) + ZIPping
+- random "substitute" verse
+- deploy/ directory with archived executables
+- About program page with the QR-code link to github
 
 ~ 4 background images for 4 seasons
   + Ukiyo-e pictures of nature (Hokusai?)
   + birds?
   - my photos (of town's pine woods)?
 
-- settings
-  - switch between dark & light themes?
+- settings:
+  - default: Dark theme
+  - switch between Dark & Light themes? 
   - 2 variants of pictures for themes?
   - hide pictures?

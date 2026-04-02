@@ -4,12 +4,11 @@ import (
 	"embed"
 	"errors"
 	"fmt"
-	"log"
+	"math/rand"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
-	//"path/filepath"
 )
 
 const (
@@ -63,7 +62,7 @@ func Today() (today []Haiku) { // 今日
 	kyou := time.Now().Format("2006-01-02")
 	today, err := ThisDay(kyou)
 	if err != nil {
-		log.Printf("Today(): %v", err)
+		//log.Printf("Today(): %v", err)
 	}
 	return today
 }
@@ -71,10 +70,9 @@ func Today() (today []Haiku) { // 今日
 func ThisDay(date string) (haiku []Haiku, err error) { // この日
 	haiku, err = loadHaiku(date)
 	if err != nil || len(haiku) == 0 {
-		haiku, err = pretext(date)
-		if err != nil {
-			log.Printf("Haiku for %s: %v", date, err)
-		}
+		haiku, err = loadHaiku("0000-00-00") // substitute = 代わり
+		rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+		rng.Shuffle(len(haiku), func(i, j int) { haiku[i], haiku[j] = haiku[j], haiku[i] })
 	}
 	return haiku, err
 }
@@ -132,27 +130,12 @@ func (h *Haiku) splitText(content string) { // 本書を分
 	h.comment = findComment(content)
 }
 
-func pretext(date string) (unwritten []Haiku, err error) { // 代わり
-	unwritten = []Haiku{}
-	h, err := readHaiku("0000-00-00", fullFileName("00", "00-00.txt"))
-	if err != nil {
-		log.Printf("pretext: %v", err)
-	}
-	if err == nil {
-		unwritten = append(unwritten, *h)
-		ymd := strings.Split(date, "-")
-		unwritten[0].year, unwritten[0].month, unwritten[0].day = ymd[0], ymd[1], ymd[2]
-	}
-	return unwritten, err
-}
-
 func loadHaiku(date string) (list []Haiku, err error) { // 俳句を引
 	list = []Haiku{}
 	err = checkDate(date)
 	if err != nil {
 		return list, err
 	}
-
 	for i := 0; i < len(variants); i++ {
 		err = nil
 		h := NewHaiku(date)
@@ -305,3 +288,20 @@ func findVariant(fileName string) (variant string, version int) { //  変異体�
 	}
 	return variant, version
 }
+
+/*
+func substitute(date string) (unwritten []Haiku, err error) { // 代わり
+
+		unwritten = []Haiku{}
+		h, err := readHaiku("0000-00-00", fullFileName("00", "00-00.txt"))
+		if err != nil {
+			log.Printf("pretext: %v", err)
+		}
+		if err == nil {
+			unwritten = append(unwritten, *h)
+			ymd := strings.Split(date, "-")
+			unwritten[0].year, unwritten[0].month, unwritten[0].day = ymd[0], ymd[1], ymd[2]
+		}
+		return unwritten, err
+	}
+*/

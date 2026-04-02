@@ -78,16 +78,6 @@ func TestNewHaiku(t *testing.T) {
 	}
 }
 
-func TestPretextHaiku(t *testing.T) {
-	h, err := pretext("2026-02-20")
-	if err != nil {
-		t.Fatalf("default haiku reading error: '%v'", err)
-	}
-	if len(h) == 0 {
-		t.Fatalf("default haiku not found: '%v'", h)
-	}
-}
-
 func TestTodayHaiku(t *testing.T) {
 	h := Today()
 	if len(h) == 0 {
@@ -219,3 +209,15 @@ func TestDate2Path(t *testing.T) {
 		t.Errorf("bad path for %v: want %v, got %v", date, wantPath, gotPath)
 	}
 }
+
+/*
+func TestPretextHaiku(t *testing.T) {
+	h, err := substitute("2026-02-20")
+	if err != nil {
+		t.Fatalf("default haiku reading error: '%v'", err)
+	}
+	if len(h) == 0 {
+		t.Fatalf("default haiku not found: '%v'", h)
+	}
+}
+*/

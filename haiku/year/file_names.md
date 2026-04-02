@@ -20,6 +20,7 @@ shimo-no-ku 下の句 "lower phrase"\
 {DD.MM.YYYY}\
 [Author]\
 <comments: optional>\
+(URL)
 
 #  kireji ("cutting word") | 切れ字
 Places of (virtual) kireji are very often marked by punctuation symbols,
