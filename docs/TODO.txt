@@ -5,9 +5,11 @@
 + return to showing today's haiku (after selection a day from the month's calendar)
 + show variants & drafts @ demand
 + build scripts (Android, Linux, Windows) + ZIPping
-- random "substitute" verse
++ random "substitute" verse
 - deploy/ directory with archived executables
-- About program page with the QR-code link to github
++ About program page 
+- QR-code link to github?
+- exit button: necessary for Android app
 
 ~ 4 background images for 4 seasons
   + Ukiyo-e pictures of nature (Hokusai?)
@@ -19,3 +21,5 @@
   - switch between Dark & Light themes? 
   - 2 variants of pictures for themes?
   - hide pictures?
+
+? Random haiku from all the year?

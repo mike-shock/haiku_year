@@ -24,8 +24,8 @@ const formatDate = "%04s-%02s-%02s"
 
 var (
 	a                                     fyne.App
-	windowWidth, windowHeight             float32       = 280, 320
-	todayHaiku                            []haiku.Haiku // 今日の俳句
+	windowWidth, windowHeight             float32       = 280, 460 // 320
+	todayHaiku                            []haiku.Haiku            // 今日の俳句
 	todayHaikuIndex                       int           = 0
 	currentYear, currentMonth, currentDay string        // 現在の年、現在の月、現在の日
 	currentDate, selectedDate             string        // 現在の日付
@@ -46,16 +46,19 @@ func main() {
 	a = app.New()
 	a.Settings().SetTheme(theme.DarkTheme())
 	w := a.NewWindow("Год хайку | 俳句の年")
+	fmt.Printf("%T", w)
 	setDefaults()
 
 	tabs = container.NewAppTabs()
 	w.SetContent(tabs)
-	tabHaiku = container.NewTabItem("Сегодня | 今日", tabToday())
-	tabMonth = container.NewTabItem("Календарь | 暦", tabCalendar())
-	tabSettings := container.NewTabItemWithIcon("", theme.SettingsIcon(), tabOptions())
+	tabHaiku = container.NewTabItemWithIcon("今日", theme.MediaRecordIcon(), tabToday())
+	tabMonth = container.NewTabItemWithIcon("暦", theme.CalendarIcon(), tabCalendar())
+	tabSettings := container.NewTabItemWithIcon("色", theme.ColorPaletteIcon(), tabOptions()) // SettingsIcon
+	tabAbout := container.NewTabItemWithIcon("著", theme.InfoIcon(), tabInfo())
 	tabs.Append(tabHaiku)
 	tabs.Append(tabMonth)
 	tabs.Append(tabSettings)
+	tabs.Append(tabAbout)
 
 	w.Resize(fyne.NewSize(windowWidth, windowHeight))
 	w.CenterOnScreen()
@@ -79,6 +82,9 @@ func setHaiku() *fyne.Container {
 	if len(todayHaiku) > 1 {
 		header.Add(moreButton)
 	}
+	quitButton := widget.NewButtonWithIcon("", theme.LogoutIcon(), func() { a.Quit() })
+	header.Add(quitButton)
+
 	if len(todayHaiku) > 0 {
 		finalText = todayHaiku[todayHaikuIndex].Verse()
 		haikuDate = todayHaiku[todayHaikuIndex].Date()
@@ -97,6 +103,7 @@ func setHaiku() *fyne.Container {
 	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
 	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
 	currentVerse := container.NewVBox(verseText, infoLabel)
+
 	box := container.NewVBox(header, currentVerse)
 
 	content := container.New(layout.NewStackLayout(), backgroundImage, box)
@@ -181,22 +188,21 @@ func setTheme(dark bool) {
 
 func setDefaults() {
 	imageCheckBox = widget.NewCheck("Visible | 見", func(value bool) {
-		//log.Printf("imageCheckBox.Checked: %v, darkTheme: %v", imageCheckBox.Checked, darkTheme)
 		setImage(value)
 	})
-	//imageCheckBox.OnChanged = setImage
 	imageCheckBox.Checked = true
 }
 
 func setImage(visible bool) {
-	/*
-		if imageCheckBox.Checked {
-			backgroundImage = embeddedImage()
-		} else {
-			backgroundImage = colorImage()
-		}
-	*/
 	thisDay()
+}
+
+func tabInfo() *fyne.Container {
+	about := widget.NewLabel("'Haiku Year' -\n a haiku\n for each day\n of the year...")
+	authors := widget.NewLabel(" by Mike & Ray Shock.")
+	copyleft := widget.NewLabel("Copyleft 🄯 1999-...")
+	content := container.NewVBox(about, authors, copyleft)
+	return content
 }
 
 func nextMonth() {

@@ -24,7 +24,7 @@ type Haiku struct { // 俳句
 	month   string // 月
 	year    string // 年
 	text    string // 句
-	author  string // 詩人
+	author  string // 詩人, 著
 	comment string // 言い草
 	variant string // 変異体: DRAFT .. FINAL
 	version int    // 稿
