@@ -53,8 +53,9 @@ func main() {
 	w.SetContent(tabs)
 	tabHaiku = container.NewTabItemWithIcon("今日", theme.MediaRecordIcon(), tabToday())
 	tabMonth = container.NewTabItemWithIcon("暦", theme.CalendarIcon(), tabCalendar())
-	tabSettings := container.NewTabItemWithIcon("色", theme.ColorPaletteIcon(), tabOptions()) // SettingsIcon
+	tabSettings := container.NewTabItemWithIcon("色", theme.ColorPaletteIcon(), tabOptions())
 	tabAbout := container.NewTabItemWithIcon("著", theme.InfoIcon(), tabInfo())
+	// TODO: quitTab?
 	tabs.Append(tabHaiku)
 	tabs.Append(tabMonth)
 	tabs.Append(tabSettings)
@@ -81,6 +82,8 @@ func setHaiku() *fyne.Container {
 	header := container.NewHBox(headerLabel)
 	if len(todayHaiku) > 1 {
 		header.Add(moreButton)
+	} else {
+		header.Add(layout.NewSpacer())
 	}
 	quitButton := widget.NewButtonWithIcon("", theme.LogoutIcon(), func() { a.Quit() })
 	header.Add(quitButton)
@@ -92,7 +95,6 @@ func setHaiku() *fyne.Container {
 		haikuAuthor = todayHaiku[todayHaikuIndex].Author()
 	}
 
-	//log.Printf("imageCheckBox.Checked: %v, darkTheme: %v", imageCheckBox.Checked, darkTheme)
 	if imageCheckBox.Checked {
 		backgroundImage = embeddedImage()
 	} else {
@@ -103,9 +105,9 @@ func setHaiku() *fyne.Container {
 	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
 	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
 	currentVerse := container.NewVBox(verseText, infoLabel)
+	//haiku := container.New(layout.NewStackLayout(), backgroundImage, currentVerse)
 
 	box := container.NewVBox(header, currentVerse)
-
 	content := container.New(layout.NewStackLayout(), backgroundImage, box)
 	return content
 }

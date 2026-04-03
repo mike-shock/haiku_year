@@ -1,6 +1,7 @@
 ~ GUI program @ Fyne
 + calendar for 1 month: generated & shown by given date
 + navigating from current month to the next or previous one
+- navigating from today to the next or previous day
 + show day's haiku (selected from the month's calendar)
 + return to showing today's haiku (after selection a day from the month's calendar)
 + show variants & drafts @ demand
@@ -9,7 +10,7 @@
 - deploy/ directory with archived executables
 + About program page 
 - QR-code link to github?
-- exit button: necessary for Android app
++ exit button: necessary for Android app
 
 ~ 4 background images for 4 seasons
   + Ukiyo-e pictures of nature (Hokusai?)
