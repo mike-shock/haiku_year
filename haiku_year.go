@@ -17,14 +17,15 @@ import (
 	"fyne.io/fyne/v2/widget"
 
 	"haiku_year/calendar"
+	"haiku_year/gui"
 	"haiku_year/haiku"
 )
 
 const formatDate = "%04s-%02s-%02s"
 
 var (
-	a                                     fyne.App
-	w                                     fyne.Window
+	a fyne.App
+	//w                                     fyne.Window
 	windowWidth, windowHeight             float32       = 280, 460 // 320
 	todayHaiku                            []haiku.Haiku            // 今日の俳句
 	todayHaikuIndex                       int           = 0
@@ -46,7 +47,7 @@ func main() {
 	todayHaiku = haiku.Today()
 	a = app.NewWithID("com.shokhirev.haiku_year")
 	a.Settings().SetTheme(theme.DarkTheme())
-	w = a.NewWindow("Год хайку | 俳句の年")
+	w := a.NewWindow("Год хайку | 俳句の年")
 	setDefaults()
 
 	tabs = container.NewAppTabs()
@@ -55,12 +56,10 @@ func main() {
 	tabMonth = container.NewTabItemWithIcon("暦", theme.CalendarIcon(), tabCalendar())
 	tabSettings := container.NewTabItemWithIcon("色", theme.ColorPaletteIcon(), tabOptions())
 	tabAbout := container.NewTabItemWithIcon("著", theme.InfoIcon(), tabInfo())
-	tabQuit := container.NewTabItemWithIcon("", theme.LogoutIcon(), tabExit())
 	tabs.Append(tabHaiku)
 	tabs.Append(tabMonth)
 	tabs.Append(tabSettings)
 	tabs.Append(tabAbout)
-	tabs.Append(tabQuit)
 
 	w.Resize(fyne.NewSize(windowWidth, windowHeight))
 	w.CenterOnScreen()
@@ -80,15 +79,14 @@ func setHaiku() *fyne.Container {
 
 	headerLabel := widget.NewLabel(fmt.Sprintf("%s\n%s\n", todaySeason, todayDate))
 	//moreButton := widget.NewButtonWithIcon("", theme.MoreHorizontalIcon(), nextVerse)
-	moreButton := widget.NewButton("..!", nextVerse)
+	//moreButton := widget.NewButton("...", nextVerse)
+	moreButton := gui.NewClickableLabel("+++", nextVerse)
 	header := container.NewHBox(headerLabel)
 	if len(todayHaiku) > 1 {
 		header.Add(moreButton)
 	} else {
 		header.Add(layout.NewSpacer())
 	}
-	//quitButton := widget.NewButtonWithIcon("", theme.LogoutIcon(), func() { os.Exit(0) }) // a.Quit() w.Close()
-	//header.Add(quitButton)
 
 	if len(todayHaiku) > 0 {
 		finalText = todayHaiku[todayHaikuIndex].Verse()
@@ -204,19 +202,8 @@ func setImage(visible bool) {
 func tabInfo() *fyne.Container {
 	about := widget.NewLabel("'Haiku Year' -\n a haiku\n for each day\n of the year...")
 	authors := widget.NewLabel(" by Mike & Ray Shock.")
-	copyleft := widget.NewLabel("Copyleft 🄯 1999-...")
+	copyleft := widget.NewLabel("Copyleft 🄯 1999-2026-...")
 	content := container.NewVBox(about, authors, copyleft)
-	return content
-}
-
-func tabExit() *fyne.Container {
-	top := widget.NewLabel("Close the application.")
-	bottom := widget.NewLabel("アプリケーションを閉じます。")
-	quitButton := widget.NewButtonWithIcon("", theme.LogoutIcon(), func() { a.Quit() })
-	spacer := layout.NewSpacer()
-	box := container.NewVBox(top, quitButton, bottom)
-	content := container.NewBorder(spacer, spacer, spacer, spacer, box, spacer)
-	//                               (top, bottom, left, right, middle, extra)
 	return content
 }
 
@@ -249,6 +236,7 @@ func nowDay() {
 }
 
 func nextVerse() {
+	println(25)
 	currentIndex := todayHaikuIndex
 	if len(todayHaiku) > 1 {
 		todayHaikuIndex++
