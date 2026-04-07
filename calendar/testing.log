@@ -93,5 +93,75 @@ PreviousMonth 2025-09-01 --> 2025-08-01
 PreviousMonth 2025-08-01 --> 2025-07-01
 PreviousMonth 2025-07-01 --> 2025-06-01
 --- PASS: TestPreviousMonth (0.00s)
+=== RUN   TestNextDate
+=== RUN   TestNextDate/April_30_->_May_1
+=== RUN   TestNextDate/June_30_->_July_1
+=== RUN   TestNextDate/September_30_->_October_1
+=== RUN   TestNextDate/November_30_->_December_1
+=== RUN   TestNextDate/Feb_28_(ordinary)_->_Mar_1
+=== RUN   TestNextDate/Feb_28_(leap)_->_Feb_29
+=== RUN   TestNextDate/Feb_29_(leap)_->_Mar_1
+=== RUN   TestNextDate/Dec_31_->_Jan_1_next_year
+=== RUN   TestNextDate/Middle_of_month
+=== RUN   TestNextDate/Jan_1_->_Jan_2
+=== RUN   TestNextDate/Jan_31_->_Feb_1
+=== RUN   TestNextDate/Mar_31_->_Apr_1
+=== RUN   TestNextDate/May_31_->_Jun_1
+=== RUN   TestNextDate/Jul_31_->_Aug_1
+=== RUN   TestNextDate/Aug_31_->_Sep_1
+=== RUN   TestNextDate/Oct_31_->_Nov_1
+=== RUN   TestNextDate/Dec_31_->_Jan_1_next_year#01
+--- PASS: TestNextDate (0.00s)
+    --- PASS: TestNextDate/April_30_->_May_1 (0.00s)
+    --- PASS: TestNextDate/June_30_->_July_1 (0.00s)
+    --- PASS: TestNextDate/September_30_->_October_1 (0.00s)
+    --- PASS: TestNextDate/November_30_->_December_1 (0.00s)
+    --- PASS: TestNextDate/Feb_28_(ordinary)_->_Mar_1 (0.00s)
+    --- PASS: TestNextDate/Feb_28_(leap)_->_Feb_29 (0.00s)
+    --- PASS: TestNextDate/Feb_29_(leap)_->_Mar_1 (0.00s)
+    --- PASS: TestNextDate/Dec_31_->_Jan_1_next_year (0.00s)
+    --- PASS: TestNextDate/Middle_of_month (0.00s)
+    --- PASS: TestNextDate/Jan_1_->_Jan_2 (0.00s)
+    --- PASS: TestNextDate/Jan_31_->_Feb_1 (0.00s)
+    --- PASS: TestNextDate/Mar_31_->_Apr_1 (0.00s)
+    --- PASS: TestNextDate/May_31_->_Jun_1 (0.00s)
+    --- PASS: TestNextDate/Jul_31_->_Aug_1 (0.00s)
+    --- PASS: TestNextDate/Aug_31_->_Sep_1 (0.00s)
+    --- PASS: TestNextDate/Oct_31_->_Nov_1 (0.00s)
+    --- PASS: TestNextDate/Dec_31_->_Jan_1_next_year#01 (0.00s)
+=== RUN   TestPreviousDate
+=== RUN   TestPreviousDate/May_1_->_April_30
+=== RUN   TestPreviousDate/July_1_->_June_30
+=== RUN   TestPreviousDate/October_1_->_September_30
+=== RUN   TestPreviousDate/December_1_->_November_30
+=== RUN   TestPreviousDate/Mar_1_(ordinary)_->_Feb_28
+=== RUN   TestPreviousDate/Feb_28_(ordinary)_->_Feb_27
+=== RUN   TestPreviousDate/Mar_1_(leap)_->_Feb_29
+=== RUN   TestPreviousDate/Feb_29_(leap)_->_Feb_28
+=== RUN   TestPreviousDate/Feb_28_(leap)_->_Feb_27
+=== RUN   TestPreviousDate/Jan_1_->_Dec_31_previous_year
+=== RUN   TestPreviousDate/Middle_of_month
+=== RUN   TestPreviousDate/Feb_1_->_Jan_31
+=== RUN   TestPreviousDate/Apr_1_->_Mar_31
+=== RUN   TestPreviousDate/Jun_1_->_May_31
+=== RUN   TestPreviousDate/Sep_1_->_Aug_31
+=== RUN   TestPreviousDate/Nov_1_->_Oct_31
+--- PASS: TestPreviousDate (0.00s)
+    --- PASS: TestPreviousDate/May_1_->_April_30 (0.00s)
+    --- PASS: TestPreviousDate/July_1_->_June_30 (0.00s)
+    --- PASS: TestPreviousDate/October_1_->_September_30 (0.00s)
+    --- PASS: TestPreviousDate/December_1_->_November_30 (0.00s)
+    --- PASS: TestPreviousDate/Mar_1_(ordinary)_->_Feb_28 (0.00s)
+    --- PASS: TestPreviousDate/Feb_28_(ordinary)_->_Feb_27 (0.00s)
+    --- PASS: TestPreviousDate/Mar_1_(leap)_->_Feb_29 (0.00s)
+    --- PASS: TestPreviousDate/Feb_29_(leap)_->_Feb_28 (0.00s)
+    --- PASS: TestPreviousDate/Feb_28_(leap)_->_Feb_27 (0.00s)
+    --- PASS: TestPreviousDate/Jan_1_->_Dec_31_previous_year (0.00s)
+    --- PASS: TestPreviousDate/Middle_of_month (0.00s)
+    --- PASS: TestPreviousDate/Feb_1_->_Jan_31 (0.00s)
+    --- PASS: TestPreviousDate/Apr_1_->_Mar_31 (0.00s)
+    --- PASS: TestPreviousDate/Jun_1_->_May_31 (0.00s)
+    --- PASS: TestPreviousDate/Sep_1_->_Aug_31 (0.00s)
+    --- PASS: TestPreviousDate/Nov_1_->_Oct_31 (0.00s)
 PASS
-ok  	haiku_year/calendar	0.002s
+ok  	haiku_year/calendar	0.023s

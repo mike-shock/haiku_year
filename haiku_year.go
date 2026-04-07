@@ -6,6 +6,7 @@ import (
 	"image"
 	"image/color"
 	"log"
+	"net/url"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -17,15 +18,14 @@ import (
 	"fyne.io/fyne/v2/widget"
 
 	"haiku_year/calendar"
-	"haiku_year/gui"
 	"haiku_year/haiku"
 )
 
 const formatDate = "%04s-%02s-%02s"
 
 var (
-	a fyne.App
-	//w                                     fyne.Window
+	a                                     fyne.App
+	u                                     *url.URL
 	windowWidth, windowHeight             float32       = 280, 460 // 320
 	todayHaiku                            []haiku.Haiku            // 今日の俳句
 	todayHaikuIndex                       int           = 0
@@ -42,6 +42,7 @@ var (
 var imagesDir embed.FS
 
 func main() {
+	u, _ = url.Parse("#")
 	currentYear, currentMonth, currentDay = calendar.CurrentDate()
 	currentDate = calendar.Today("RU")
 	todayHaiku = haiku.Today()
@@ -77,11 +78,13 @@ func setHaiku() *fyne.Container {
 	finalText, haikuDate, haikuComment, haikuAuthor := "", "", "", ""
 	todayHaiku, _ = haiku.ThisDay(currentDate)
 
-	headerLabel := widget.NewLabel(fmt.Sprintf("%s\n%s\n", todaySeason, todayDate))
+	headerLabel := widget.NewLabel(fmt.Sprintf("%s\n%s", todaySeason, todayDate))
 	//moreButton := widget.NewButtonWithIcon("", theme.MoreHorizontalIcon(), nextVerse)
-	//moreButton := widget.NewButton("...", nextVerse)
-	moreButton := gui.NewClickableLabel("+++", nextVerse)
-	header := container.NewHBox(headerLabel)
+	moreButton := widget.NewButton("...", nextVerse)
+	//moreButton := widget.NewHyperlink("...", u)
+	//moreButton.OnTapped = nextVerse
+
+	header := container.NewHBox(headerLabel, layout.NewSpacer())
 	if len(todayHaiku) > 1 {
 		header.Add(moreButton)
 	} else {
@@ -200,9 +203,9 @@ func setImage(visible bool) {
 }
 
 func tabInfo() *fyne.Container {
-	about := widget.NewLabel("'Haiku Year' -\n a haiku\n for each day\n of the year...")
+	about := widget.NewLabel("About app:\n'Haiku Year' -\n a haiku\n for each day\n of the year...")
 	authors := widget.NewLabel(" by Mike & Ray Shock.")
-	copyleft := widget.NewLabel("Copyleft 🄯 1999-2026-...")
+	copyleft := widget.NewLabel("Copyleft 🄯 1999 - 2026 - ...")
 	content := container.NewVBox(about, authors, copyleft)
 	return content
 }
@@ -236,7 +239,6 @@ func nowDay() {
 }
 
 func nextVerse() {
-	println(25)
 	currentIndex := todayHaikuIndex
 	if len(todayHaiku) > 1 {
 		todayHaikuIndex++

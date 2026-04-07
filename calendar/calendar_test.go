@@ -147,3 +147,95 @@ func TestPreviousMonth(t *testing.T) {
 		y = y2
 	}
 }
+
+func TestNextDate(t *testing.T) {
+	tests := []struct {
+		name     string
+		given    string
+		expected string
+	}{
+		// End of short months (30-day months)
+		{"April 30 -> May 1", "2025-04-30", "2025-05-01"},
+		{"June 30 -> July 1", "2025-06-30", "2025-07-01"},
+		{"September 30 -> October 1", "2025-09-30", "2025-10-01"},
+		{"November 30 -> December 1", "2025-11-30", "2025-12-01"},
+
+		// End of February (ordinary year)
+		{"Feb 28 (ordinary) -> Mar 1", "2023-02-28", "2023-03-01"},
+		// End of February (leap year)
+		{"Feb 28 (leap) -> Feb 29", "2024-02-28", "2024-02-29"},
+		{"Feb 29 (leap) -> Mar 1", "2024-02-29", "2024-03-01"},
+
+		// End of year
+		{"Dec 31 -> Jan 1 next year", "2025-12-31", "2026-01-01"},
+
+		// Middle of month (no edge)
+		{"Middle of month", "2025-03-15", "2025-03-16"},
+
+		// Start of month (Jan 1 -> Jan 2)
+		{"Jan 1 -> Jan 2", "2025-01-01", "2025-01-02"},
+
+		// End of 31-day months
+		{"Jan 31 -> Feb 1", "2025-01-31", "2025-02-01"},
+		{"Mar 31 -> Apr 1", "2025-03-31", "2025-04-01"},
+		{"May 31 -> Jun 1", "2025-05-31", "2025-06-01"},
+		{"Jul 31 -> Aug 1", "2025-07-31", "2025-08-01"},
+		{"Aug 31 -> Sep 1", "2025-08-31", "2025-09-01"},
+		{"Oct 31 -> Nov 1", "2025-10-31", "2025-11-01"},
+		{"Dec 31 -> Jan 1 next year", "2025-12-31", "2026-01-01"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := nextDate(tt.given)
+			if got != tt.expected {
+				t.Errorf("nextDate(%q) = %q, want %q", tt.given, got, tt.expected)
+			}
+		})
+	}
+}
+
+func TestPreviousDate(t *testing.T) {
+	tests := []struct {
+		name     string
+		given    string
+		expected string
+	}{
+		// Going backwards from start of short months
+		{"May 1 -> April 30", "2025-05-01", "2025-04-30"},
+		{"July 1 -> June 30", "2025-07-01", "2025-06-30"},
+		{"October 1 -> September 30", "2025-10-01", "2025-09-30"},
+		{"December 1 -> November 30", "2025-12-01", "2025-11-30"},
+
+		// February borders (ordinary year)
+		{"Mar 1 (ordinary) -> Feb 28", "2023-03-01", "2023-02-28"},
+		{"Feb 28 (ordinary) -> Feb 27", "2023-02-28", "2023-02-27"},
+
+		// February borders (leap year)
+		{"Mar 1 (leap) -> Feb 29", "2024-03-01", "2024-02-29"},
+		{"Feb 29 (leap) -> Feb 28", "2024-02-29", "2024-02-28"},
+		{"Feb 28 (leap) -> Feb 27", "2024-02-28", "2024-02-27"},
+
+		// Year boundary
+		{"Jan 1 -> Dec 31 previous year", "2022-01-01", "2021-12-31"},
+
+		// Middle of month
+		{"Middle of month", "2025-03-16", "2025-03-15"},
+
+		// End of month (31-day)
+		{"Feb 1 -> Jan 31", "2025-02-01", "2025-01-31"},
+		{"Apr 1 -> Mar 31", "2025-04-01", "2025-03-31"},
+		{"Jun 1 -> May 31", "2025-06-01", "2025-05-31"},
+		{"Sep 1 -> Aug 31", "2025-09-01", "2025-08-31"},
+		{"Nov 1 -> Oct 31", "2025-11-01", "2025-10-31"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := previousDate(tt.given)
+			if got != tt.expected {
+				t.Errorf("prevDate(%q) = %q, want %q", tt.given, got, tt.expected)
+			}
+		})
+	}
+}

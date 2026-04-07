@@ -10,6 +10,7 @@ import (
 
 const (
 	dateFormat = "2006-01-02"
+	zeroDate   = "0000-00-00"
 	Rows       = 6
 	Cols       = 7
 )
@@ -116,7 +117,7 @@ func NextMonth(date string) string {
 }
 
 func PreviousMonth(date string) string {
-	t, err := time.Parse("2006-01-02", date)
+	t, err := time.Parse(dateFormat, date)
 	if err != nil {
 		return date
 	}
@@ -192,4 +193,22 @@ func CurrentDate() (currentYear, currentMonth, currentDay string) {
 func YyyyMmDd(date string) (y, m, d string) {
 	ymd := strings.Split(date, "-")
 	return ymd[0], ymd[1], ymd[2]
+}
+
+func nextDate(givenDate string) string {
+	t, err := time.Parse(dateFormat, givenDate)
+	if err != nil {
+		return zeroDate
+	}
+	next := t.AddDate(0, 0, 1)
+	return next.Format(dateFormat)
+}
+
+func previousDate(givenDate string) string {
+	t, err := time.Parse(dateFormat, givenDate)
+	if err != nil {
+		return zeroDate
+	}
+	prev := t.AddDate(0, 0, -1)
+	return prev.Format(dateFormat)
 }
