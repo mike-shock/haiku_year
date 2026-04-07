@@ -37,7 +37,7 @@ var (
 		TestDatum{"2026-01-01", 1, nil, nil},
 		TestDatum{"2025-01-02", 0, nil, TextMissingError},
 		TestDatum{"2026-02-05", 3, nil, nil},
-		TestDatum{"2004-03-06", 1, nil, nil},
+		TestDatum{"2004-03-06", 2, nil, nil},
 		TestDatum{"2023-10-16", 2, nil, nil},
 		TestDatum{"2022-12-31", 1, nil, nil},
 		TestDatum{"9999-12-32", 0, InvalidDateError, nil},

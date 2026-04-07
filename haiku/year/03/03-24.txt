@@ -3,4 +3,5 @@
 Сегодня. Сейчас...
 
 {24.03.2026}
-<Ray: "A rose will bloom, and then will fade...">
+<Ray: "A rose will bloom, 
+and then will fade...">

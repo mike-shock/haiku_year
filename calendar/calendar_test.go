@@ -187,7 +187,7 @@ func TestNextDate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := nextDate(tt.given)
+			got := NextDate(tt.given)
 			if got != tt.expected {
 				t.Errorf("nextDate(%q) = %q, want %q", tt.given, got, tt.expected)
 			}
@@ -232,7 +232,7 @@ func TestPreviousDate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := previousDate(tt.given)
+			got := PreviousDate(tt.given)
 			if got != tt.expected {
 				t.Errorf("prevDate(%q) = %q, want %q", tt.given, got, tt.expected)
 			}

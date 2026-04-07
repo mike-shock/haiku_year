@@ -195,7 +195,7 @@ func YyyyMmDd(date string) (y, m, d string) {
 	return ymd[0], ymd[1], ymd[2]
 }
 
-func nextDate(givenDate string) string {
+func NextDate(givenDate string) string {
 	t, err := time.Parse(dateFormat, givenDate)
 	if err != nil {
 		return zeroDate
@@ -204,7 +204,7 @@ func nextDate(givenDate string) string {
 	return next.Format(dateFormat)
 }
 
-func previousDate(givenDate string) string {
+func PreviousDate(givenDate string) string {
 	t, err := time.Parse(dateFormat, givenDate)
 	if err != nil {
 		return zeroDate

@@ -164,4 +164,4 @@ PreviousMonth 2025-07-01 --> 2025-06-01
     --- PASS: TestPreviousDate/Sep_1_->_Aug_31 (0.00s)
     --- PASS: TestPreviousDate/Nov_1_->_Oct_31 (0.00s)
 PASS
-ok  	haiku_year/calendar	0.023s
+ok  	haiku_year/calendar	0.002s

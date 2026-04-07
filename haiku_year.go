@@ -97,7 +97,6 @@ func setHaiku() *fyne.Container {
 		haikuComment = todayHaiku[todayHaikuIndex].Comment()
 		haikuAuthor = todayHaiku[todayHaikuIndex].Author()
 	}
-
 	if imageCheckBox.Checked {
 		backgroundImage = embeddedImage()
 	} else {
@@ -108,10 +107,16 @@ func setHaiku() *fyne.Container {
 	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
 	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
 	currentVerse := container.NewVBox(verseText, infoLabel)
-	//haiku := container.New(layout.NewStackLayout(), backgroundImage, currentVerse)
+
+	backDayButton := widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), backDay)
+	todayButton := widget.NewButtonWithIcon("", theme.MediaRecordIcon(), nowDay)
+	nextDayButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nextDay)
+	navigationButtons := container.NewHBox(layout.NewSpacer(), backDayButton, todayButton, nextDayButton, layout.NewSpacer())
 
 	box := container.NewVBox(header, currentVerse)
-	content := container.New(layout.NewStackLayout(), backgroundImage, box)
+	upper := container.New(layout.NewStackLayout(), backgroundImage, box)
+
+	content := container.NewVBox(upper, navigationButtons)
 	return content
 }
 
@@ -128,10 +133,10 @@ func setCalendar() *fyne.Container {
 	grid := layout.NewGridLayout(calendar.Cols)
 	gridContainer := container.New(grid)
 
-	backButton := widget.NewButtonWithIcon("", theme.MediaFastRewindIcon(), backMonth)
+	backMonthButton := widget.NewButtonWithIcon("", theme.MediaFastRewindIcon(), backMonth)
 	todayButton := widget.NewButtonWithIcon("", theme.MediaRecordIcon(), nowDay)
-	nextButton := widget.NewButtonWithIcon("", theme.MediaFastForwardIcon(), nextMonth)
-	buttons := container.NewHBox(layout.NewSpacer(), backButton, todayButton, nextButton, layout.NewSpacer())
+	nextMonthButton := widget.NewButtonWithIcon("", theme.MediaFastForwardIcon(), nextMonth)
+	buttons := container.NewHBox(layout.NewSpacer(), backMonthButton, todayButton, nextMonthButton, layout.NewSpacer())
 
 	c := calendar.NewCalendar(currentDate)
 	days := c.Days()
@@ -218,10 +223,26 @@ func nextMonth() {
 }
 
 func backMonth() {
-	currentDate := calendar.PreviousMonth(currentDate)
+	currentDate = calendar.PreviousMonth(currentDate)
 	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
 	tabMonth.Content = setCalendar()
 	tabs.Select(tabMonth)
+}
+
+func backDay() {
+	currentDate = calendar.PreviousDate(currentDate)
+	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
+	todayHaikuIndex = 0
+	tabHaiku.Content = setHaiku()
+	tabs.Select(tabHaiku)
+}
+
+func nextDay() {
+	currentDate = calendar.NextDate(currentDate)
+	currentYear, currentMonth, currentDay = calendar.YyyyMmDd(currentDate)
+	todayHaikuIndex = 0
+	tabHaiku.Content = setHaiku()
+	tabs.Select(tabHaiku)
 }
 
 func thisDay() {

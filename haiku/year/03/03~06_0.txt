@@ -5,4 +5,4 @@
 {06.03.2026}
 <Initial commit to
 haiku_year repository
-on github.>
+@ github.>
