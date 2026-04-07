@@ -79,17 +79,7 @@ func setHaiku() *fyne.Container {
 	todayHaiku, _ = haiku.ThisDay(currentDate)
 
 	headerLabel := widget.NewLabel(fmt.Sprintf("%s\n%s", todaySeason, todayDate))
-	//moreButton := widget.NewButtonWithIcon("", theme.MoreHorizontalIcon(), nextVerse)
-	moreButton := widget.NewButton("...", nextVerse)
-	//moreButton := widget.NewHyperlink("...", u)
-	//moreButton.OnTapped = nextVerse
-
 	header := container.NewHBox(headerLabel, layout.NewSpacer())
-	if len(todayHaiku) > 1 {
-		header.Add(moreButton)
-	} else {
-		header.Add(layout.NewSpacer())
-	}
 
 	if len(todayHaiku) > 0 {
 		finalText = todayHaiku[todayHaikuIndex].Verse()
@@ -106,17 +96,23 @@ func setHaiku() *fyne.Container {
 	verseText := widget.NewLabelWithStyle(finalText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
 	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
-	currentVerse := container.NewVBox(verseText, infoLabel)
 
 	backDayButton := widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), backDay)
 	todayButton := widget.NewButtonWithIcon("", theme.MediaRecordIcon(), nowDay)
 	nextDayButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nextDay)
-	navigationButtons := container.NewHBox(layout.NewSpacer(), backDayButton, todayButton, nextDayButton, layout.NewSpacer())
+	moreButton := widget.NewButton("...", nextVerse)
+	navigationButtons := container.NewHBox(
+		backDayButton, todayButton, nextDayButton, layout.NewSpacer(),
+	)
+	if len(todayHaiku) > 1 {
+		navigationButtons.Add(moreButton)
+	} else {
+		navigationButtons.Add(layout.NewSpacer())
+	}
 
-	box := container.NewVBox(header, currentVerse)
-	upper := container.New(layout.NewStackLayout(), backgroundImage, box)
-
-	content := container.NewVBox(upper, navigationButtons)
+	textBox := container.NewVBox(header, verseText, infoLabel)
+	layers := container.New(layout.NewStackLayout(), backgroundImage, textBox)
+	content := container.NewBorder(nil, navigationButtons, nil, nil, layers)
 	return content
 }
 

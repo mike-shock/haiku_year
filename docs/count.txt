@@ -59,7 +59,7 @@
 	Total: 367
 
 2026-04-07:
-	Now: 116
-	Left: 251
+	Now: 119
+	Left: 248
 	Total: 367
-	Variants: 144
+	Variants: 149
