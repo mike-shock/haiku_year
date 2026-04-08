@@ -6,7 +6,6 @@ import (
 	"image"
 	"image/color"
 	"log"
-	"net/url"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -23,9 +22,28 @@ import (
 
 const formatDate = "%04s-%02s-%02s"
 
+/*
+type CustomTheme struct {
+	fyne.Theme
+}
+
+	func (t CustomTheme) Size(s fyne.ThemeSizeName) float32 {
+		if s == theme.SizeNameText {
+			return 16 // New global text size
+		}
+		return t.Theme.Size(s)
+	}
+
+func NewCustomTheme() *CustomTheme {
+	t := CustomTheme{}
+	t.Theme = theme.DefaultTheme()
+	t.Theme.Scale = float32(1.1)
+	return &t
+}
+*/
+
 var (
 	a                                     fyne.App
-	u                                     *url.URL
 	windowWidth, windowHeight             float32       = 280, 460 // 320
 	todayHaiku                            []haiku.Haiku            // 今日の俳句
 	todayHaikuIndex                       int           = 0
@@ -36,17 +54,19 @@ var (
 	imageCheckBox                         *widget.Check
 	backgroundImage                       *canvas.Image
 	darkTheme                             bool = true
+	//customTheme                           *CustomTheme
 )
 
 //go:embed images
 var imagesDir embed.FS
 
 func main() {
-	u, _ = url.Parse("#")
 	currentYear, currentMonth, currentDay = calendar.CurrentDate()
 	currentDate = calendar.Today("RU")
 	todayHaiku = haiku.Today()
 	a = app.NewWithID("com.shokhirev.haiku_year")
+	//customTheme = NewCustomTheme()
+	//a.Settings().SetTheme(customTheme)
 	a.Settings().SetTheme(theme.DarkTheme())
 	w := a.NewWindow("Год хайку | 俳句の年")
 	setDefaults()

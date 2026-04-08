@@ -29,5 +29,8 @@ zip -9 $NAME.exe.zip $NAME.exe
 rm -f $OUT/$NAME.apk.zip
 zip -9 $NAME.apk.zip $NAME.apk
 
+rm -f $OUT/$NAME.apk.7z
+7z a $NAME.apk.7z $NAME.apk
+
 ls -l $OUT/haiku* > $OUT/$LOG
 cp $OUT/$LOG $DOC

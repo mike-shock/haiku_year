@@ -4,13 +4,15 @@
 + navigating from today to the next or previous day
 + show day's haiku (selected from the month's calendar)
 + return to showing today's haiku (after selection a day from the month's calendar)
-+ show variants & drafts @ demand
-+ build scripts (Android, Linux, Windows) + ZIPping
++ show variants & drafts @ demand: (...) button
++ build scripts (Android, Linux, Windows) + make atchives with binaries for deploying
 + random "substitute" verse
 + Info tab: About program
+- make text font bigger for better reading
 - QR-code link to github? (@ Info tab)
 - deploy/ directory with archived executables
 < exit button: necessary for Android app - No!
+- reduce the size of an Android app (< 100 MB)
 
 ~ 4 background images for 4 seasons
   + Ukiyo-e pictures of nature (Hokusai?)
