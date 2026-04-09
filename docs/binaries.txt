@@ -1,8 +1,7 @@
--rwxr-xr-x 1 t4503 t4503  33991696 апр  9 16:43 /home/t4503/D/tmp/haiku_year
--rw-rw-r-- 1 t4503 t4503 103798940 апр  9 16:42 /home/t4503/D/tmp/haiku_year.apk
--rw-rw-r-- 1 t4503 t4503  21375715 апр  9 16:43 /home/t4503/D/tmp/haiku_year.apk.7z
--rw-rw-r-- 1 t4503 t4503  48705776 апр  9 16:43 /home/t4503/D/tmp/haiku_year.apk.zip
--rwxr-xr-x 1 t4503 t4503  25634816 апр  9 16:43 /home/t4503/D/tmp/haiku_year.exe
--rw-rw-r-- 1 t4503 t4503  12477292 апр  9 16:43 /home/t4503/D/tmp/haiku_year.exe.zip
--rw-rw-r-- 1 t4503 t4503  33996800 апр  7 17:19 /home/t4503/D/tmp/haiku_year.tar.gz
--rw-rw-r-- 1 t4503 t4503  16251820 апр  9 16:43 /home/t4503/D/tmp/haiku_year.tar.xz
+-rwxr-xr-x 1 t4503 t4503 34031992 апр  9 18:07 /home/t4503/D/tmp/haiku_year
+-rw-rw-r-- 1 t4503 t4503 48738334 апр  9 18:08 /home/t4503/D/tmp/haiku_year-0.apk.zip
+-rw-rw-r-- 1 t4503 t4503 48750713 апр  9 18:08 /home/t4503/D/tmp/haiku_year.apk
+-rw-rw-r-- 1 t4503 t4503 48750891 апр  9 18:08 /home/t4503/D/tmp/haiku_year.apk.zip
+-rwxr-xr-x 1 t4503 t4503 25662464 апр  9 17:59 /home/t4503/D/tmp/haiku_year.exe
+-rw-rw-r-- 1 t4503 t4503 12484159 апр  9 18:08 /home/t4503/D/tmp/haiku_year.exe.zip
+-rw-rw-r-- 1 t4503 t4503 18804013 апр  9 18:08 /home/t4503/D/tmp/haiku_year.tar.gz

@@ -200,13 +200,17 @@ func tabOptions() fyne.CanvasObject {
 }
 
 func setOptions() *fyne.Container {
+	const labelDark, labelLight = "Dark | 黒", "Light | 白"
 	labelTheme := widget.NewLabel("Theme | テーマ")
-	themeButtons := container.NewGridWithColumns(2,
-		widget.NewButtonWithIcon("Dark | 黒", theme.RadioButtonCheckedIcon(), func() { setTheme(true) }),
-		widget.NewButtonWithIcon("Light | 白", theme.RadioButtonIcon(), func() { setTheme(false) }),
-	)
+	themeRadio := widget.NewRadioGroup([]string{labelDark, labelLight}, func(value string) {
+		if value == labelDark {
+			setTheme(true)
+		} else {
+			setTheme(false)
+		}
+	})
 	labelImage := widget.NewLabel("Images | 画")
-	content := container.NewVBox(labelTheme, themeButtons, labelImage, imageCheckBox)
+	content := container.NewVBox(labelTheme, themeRadio, labelImage, imageCheckBox)
 	return content
 }
 
