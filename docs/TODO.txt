@@ -9,9 +9,14 @@
 + random "substitute" verse
 + Info tab: About program
 - make text font bigger for better reading
+  < replace Label with Text that can change font size? - No, multi-line text not supported!
+  < fyne_settings utility: increase font size by scaling? - No, doesn't work @ Android!
+  < widget.RichText? - No, Japanese font not supported!
+  - custom theme with bigger font? - how to switch between dark and light?
+- custom theme with own fonts amd colours!
 - QR-code link to github? (@ Info tab)
 - deploy/ directory with archived executables
-< exit button: necessary for Android app - No!
+< exit button: necessary for Android app? - No!
 - reduce the size of an Android app (< 100 MB)
 
 ~ 4 background images for 4 seasons

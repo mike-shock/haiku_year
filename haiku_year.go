@@ -22,7 +22,7 @@ import (
 
 const formatDate = "%04s-%02s-%02s"
 
-/*
+/* -
 type CustomTheme struct {
 	fyne.Theme
 }
@@ -54,7 +54,7 @@ var (
 	imageCheckBox                         *widget.Check
 	backgroundImage                       *canvas.Image
 	darkTheme                             bool = true
-	//customTheme                           *CustomTheme
+	//-customTheme                           *CustomTheme
 )
 
 //go:embed images
@@ -65,9 +65,9 @@ func main() {
 	currentDate = calendar.Today("RU")
 	todayHaiku = haiku.Today()
 	a = app.NewWithID("com.shokhirev.haiku_year")
-	//customTheme = NewCustomTheme()
-	//a.Settings().SetTheme(customTheme)
-	a.Settings().SetTheme(theme.DarkTheme())
+	//-customTheme = NewCustomTheme()
+	//-a.Settings().SetTheme(customTheme)
+	//+a.Settings().SetTheme(theme.DarkTheme())
 	w := a.NewWindow("Год хайку | 俳句の年")
 	setDefaults()
 
@@ -114,6 +114,14 @@ func setHaiku() *fyne.Container {
 	}
 
 	verseText := widget.NewLabelWithStyle(finalText, fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
+	/*
+		textColor := color.Black
+		log.Printf("%T", textColor)
+		if darkTheme {
+		} else {
+		}
+		verseText := canvas.NewText(finalText, textColor)
+	*/
 	infoText := fmt.Sprintf("%s\n%s\n%s", haikuDate, haikuAuthor, haikuComment)
 	infoLabel := widget.NewLabelWithStyle(infoText, fyne.TextAlignTrailing, fyne.TextStyle{Italic: true})
 
