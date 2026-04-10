@@ -55,7 +55,11 @@ rm -rf $OUT/apk/
 rm -f $OUT/$NAME.tar.xz
 
 echo Saving the log...
-ls -l $OUT/haiku* > $OUT/$LOG
-cp $OUT/$LOG $DOC
+$DIR/bin/size.sh
+
+echo Copying archived binaries
+cp $OUT/$NAME.apk.zip $DIR/deploy
+cp $OUT/$NAME.exe.zip $DIR/deploy
+cp $OUT/$NAME.tar.gz $DIR/deploy
 
 cd $DIR
