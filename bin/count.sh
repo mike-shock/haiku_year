@@ -10,8 +10,8 @@ VARIANTS=`find $DATA -type f -name "*.txt" | wc -l`
 
 echo                      >> $LOG
 echo $TODAY:              >> $LOG
+echo -e '\t'Days: $TOTAL  >> $LOG
 echo -e '\t'Now: $NOW     >> $LOG
-echo -e '\t'Left: $LEFT   >> $LOG
-echo -e '\t'Total: $TOTAL >> $LOG
 echo -e '\t'Variants: $V  >> $LOG
+echo -e '\t'Left: $LEFT   >> $LOG
 
