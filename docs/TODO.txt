@@ -17,6 +17,7 @@
 
 - custom theme with own fonts amd colours!
 - QR-code link to github? (@ Info tab)
+- hyperlink to github @ Info tab
 # exit button: necessary for Android app? - No!
 
 + deploy/ directory with archived executables
