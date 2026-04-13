@@ -13,11 +13,15 @@
   < fyne_settings utility: increase font size by scaling? - No, doesn't work @ Android!
   < widget.RichText? - No, Japanese font not supported!
   - custom theme with bigger font? - how to switch between dark and light?
+- set the selected month on Calender tab after navigating on Haiku tab
+
 - custom theme with own fonts amd colours!
 - QR-code link to github? (@ Info tab)
-- deploy/ directory with archived executables
-< exit button: necessary for Android app? - No!
-- reduce the size of an Android app (< 100 MB)
+# exit button: necessary for Android app? - No!
+
++ deploy/ directory with archived executables
++ reduce the size of an Android app (< 100 MB): made by re-ZIP-ping the APK
+- build scripts --> deploy?
 
 ~ 4 background images for 4 seasons
   + Ukiyo-e pictures of nature (Hokusai?)
