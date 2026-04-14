@@ -16,4 +16,7 @@ I haven't decided yet: to include or not some early drafts, which don't comply w
 
 Mike Shock | Mikhail V. Shokhirev | 山口 見葉色 | Yamaguchi Mihairo
 
+# Год хайку
 
+Изучая язык Go, решил написать приложение-воспоминание. Давно интересовался культурой Японии и, время от времени,\
+сочинял хайку, любуясь моментом.
