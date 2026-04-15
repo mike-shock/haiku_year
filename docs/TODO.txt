@@ -13,9 +13,9 @@
   < fyne_settings utility: increase font size by scaling? - No, doesn't work @ Android!
   < widget.RichText? - No, Japanese font not supported!
   - custom theme with bigger font? - how to switch between dark and light?
-- set the selected month on Calender tab after navigating on Haiku tab
++ set the selected month on Calender tab after navigating on Haiku tab
 
-- custom theme with own fonts amd colours!
+- custom theme with own fonts and colours!
 - QR-code link to github? (@ Info tab)
 - hyperlink to github @ Info tab
 # exit button: necessary for Android app? - No!

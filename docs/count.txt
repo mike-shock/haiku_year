@@ -93,3 +93,9 @@
 	Now: 158
 	Variants: 195
 	Left: 209
+
+2026-04-15:
+	Days: 367
+	Now: 159
+	Variants: 198
+	Left: 208
