@@ -20,7 +20,13 @@ import (
 	"haiku_year/haiku"
 )
 
-const formatDate = "%04s-%02s-%02s"
+const (
+	captionCalendar = "暦"
+	captionToday    = "今日"
+	captionColor    = "色"
+	captionInfo     = "著"
+	formatDate      = "%04s-%02s-%02s"
+)
 
 /* -
 type CustomTheme struct {
@@ -73,14 +79,19 @@ func main() {
 
 	tabs = container.NewAppTabs()
 	w.SetContent(tabs)
-	tabHaiku = container.NewTabItemWithIcon("今日", theme.MediaRecordIcon(), tabToday())
-	tabMonth = container.NewTabItemWithIcon("暦", theme.CalendarIcon(), tabCalendar())
-	tabSettings := container.NewTabItemWithIcon("色", theme.ColorPaletteIcon(), tabOptions())
-	tabAbout := container.NewTabItemWithIcon("著", theme.InfoIcon(), tabInfo())
+	tabHaiku = container.NewTabItemWithIcon(captionToday, theme.MediaRecordIcon(), tabToday())
+	tabMonth = container.NewTabItemWithIcon(captionCalendar, theme.CalendarIcon(), tabCalendar())
+	tabSettings := container.NewTabItemWithIcon(captionColor, theme.ColorPaletteIcon(), tabOptions())
+	tabAbout := container.NewTabItemWithIcon(captionInfo, theme.InfoIcon(), tabInfo())
 	tabs.Append(tabHaiku)
 	tabs.Append(tabMonth)
 	tabs.Append(tabSettings)
 	tabs.Append(tabAbout)
+	tabs.OnSelected = func(tab *container.TabItem) {
+		if tab.Text == captionCalendar {
+			tabMonth.Content = setCalendar()
+		}
+	}
 
 	w.Resize(fyne.NewSize(windowWidth, windowHeight))
 	w.CenterOnScreen()
