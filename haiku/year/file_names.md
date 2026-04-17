@@ -1,6 +1,6 @@
 # File Names:
 
-haiku/year/			# verses files: 俳句
+haiku/year/			# haiku files: 俳句
 &nbsp;    01/			# by months: from January...  
 ...  
 &nbsp;    12/			# ... to December  
@@ -9,7 +9,7 @@ haiku/year/			# verses files: 俳句
 &nbsp;	12-31.txt	# resulting version  
 &nbsp;	12-31_M.txt	# Mike's version: MM-DD_M.txt  
 &nbsp;	12-31_R.txt	# Ray's version:  MM-DD_R.txt  
-&nbsp;	12-31_1.txt	# translated haiku: MM-DD_N.txt  
+&nbsp;	12-31_1.txt	# other version or translated haiku: MM-DD_N.txt  
 &nbsp;	12\~31_0.txt	# draft version:  MM\~DD_N.txt  
 
 # File Content:

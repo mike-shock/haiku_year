@@ -3,13 +3,13 @@
 === RUN   TestNewHaiku
 --- PASS: TestNewHaiku (0.00s)
 === RUN   TestTodayHaiku
-Без настроенья
-хайку не сочинится,
-как ни старайся!
+Берёза тянет
+ветку к тополю, он - ей
+навстречу: здравствуй!
 
-	Date: 00.00.0000
+	Date: 17.04.2026
 	Author: Mike
-	Comment: На этот день хайку пока нет...
+	Comment: По дороге на завод.
 	Variant: FINAL
 	Version: 0
 -------------------------
@@ -138,7 +138,7 @@ and the sky is starless.
 	Author: Mike
 	Comment: Initial commit to
 haiku_year repository
-on github.
+@ github.
 	Variant: DRAFT
 	Version: 0
 -------------------------
@@ -176,9 +176,10 @@ on github.
 хайку не сочинится,
 как ни старайся!
 
-	Date: 00.00.0000
+	Date: 19.03.2026
 	Author: Mike
-	Comment: На этот день хайку пока нет...
+	Comment: На этот день 
+хайку пока нет...
 	Variant: FINAL
 	Version: 0
 -------------------------
@@ -186,7 +187,7 @@ on github.
 и на этот день тоже
 я хотел. Не успел.
 
-	Date: 00.00.0000
+	Date: 30.03.2026
 	Author: Mike
 	Comment: 
 	Variant: FINAL
@@ -214,4 +215,4 @@ on github.
 === RUN   TestDate2Path
 --- PASS: TestDate2Path (0.00s)
 PASS
-ok  	haiku_year/haiku	0.002s
+ok  	haiku_year/haiku	0.024s
