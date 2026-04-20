@@ -1,3 +1,8 @@
+# 	Days: 367 = 366 + 00 (default "unwritten" haiku)
+#	Now: written haiku for the date
+#	Variants: wit all variants and versions
+#	Left: to be written 
+
 2026-03-06:
 	Now: 0
 	Left: 366
@@ -111,3 +116,9 @@
 	Now: 166
 	Variants: 209
 	Left: 201
+
+2026-04-20:
+	Days: 367
+	Now: 167
+	Variants: 211
+	Left: 200
