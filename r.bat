@@ -1,1 +1,1 @@
-go run haiku_year.go
+go run .

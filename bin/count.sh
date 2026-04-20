@@ -1,4 +1,5 @@
 #!/bin/bash
+PRG=../constants.go
 DATA=../haiku/year
 LOG=../docs/count.txt
 TOTAL=367
@@ -15,3 +16,8 @@ echo -e '\t'Now: $NOW     >> $LOG
 echo -e '\t'Variants: $V  >> $LOG
 echo -e '\t'Left: $LEFT   >> $LOG
 
+echo "package main"          > $PRG
+echo "const ("              >> $PRG
+echo "	HAIKU_TOTAL = $V"   >> $PRG
+echo "	HAIKU_LEFT = $LEFT" >> $PRG
+echo ")"                    >> $PRG
