@@ -21,7 +21,6 @@ import (
 )
 
 const (
-	APP_VERSION     = "26.04.20"
 	captionCalendar = "暦"
 	captionToday    = "今日"
 	captionColor    = "色"
@@ -250,7 +249,7 @@ func setImage(visible bool) {
 func tabInfo() *fyne.Container {
 	about := widget.NewLabel("About app:\n'Haiku Year' -\n a haiku\n for each day\n of the year...")
 	authors := widget.NewLabel(" by Mike & Ray Shock.")
-	version := widget.NewLabel(fmt.Sprintf(" v.%s\n Haiku - total: %v, left: %v.", APP_VERSION, HAIKU_TOTAL, HAIKU_LEFT))
+	version := widget.NewLabel(fmt.Sprintf(" v.%s\n Haiku - now: %v, variants: %v, left: %v.", APP_VERSION, HAIKU_NOW, HAIKU_VARIANTS, HAIKU_LEFT))
 	copyleft := widget.NewLabel("Copyleft 🄯 1999 - 2026 - ...")
 	content := container.NewVBox(about, authors, version, copyleft)
 	return content

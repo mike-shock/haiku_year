@@ -1,8 +1,0 @@
-Не хайку пишу,
-а программу, чтоб хайку
-читать каждый день.
-
-{06.03.2026}
-<Initial commit to
-haiku_year repository
-@ github.>

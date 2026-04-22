@@ -1,5 +1,7 @@
 package main
 const (
-	HAIKU_TOTAL = 223
-	HAIKU_LEFT = 191
+	APP_VERSION = "26.04.22"
+	HAIKU_VARIANTS = 228
+	HAIKU_NOW = 179
+	HAIKU_LEFT = 188
 )

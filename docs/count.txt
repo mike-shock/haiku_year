@@ -128,3 +128,15 @@
 	Now: 176
 	Variants: 223
 	Left: 191
+
+2026-04-21:
+	Days: 367
+	Now: 177
+	Variants: 226
+	Left: 190
+
+2026-04-22:
+	Days: 367
+	Now: 179
+	Variants: 228
+	Left: 188
