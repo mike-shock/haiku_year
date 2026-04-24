@@ -71,9 +71,9 @@ func ThisDay(date string) (haiku []Haiku, err error) { // この日
 	haiku, err = loadHaiku(date)
 	if err != nil || len(haiku) == 0 {
 		haiku, err = loadHaiku("0000-00-00") // substitute = 代わり
-		rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-		rng.Shuffle(len(haiku), func(i, j int) { haiku[i], haiku[j] = haiku[j], haiku[i] })
 	}
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	rng.Shuffle(len(haiku), func(i, j int) { haiku[i], haiku[j] = haiku[j], haiku[i] })
 	return haiku, err
 }
 
