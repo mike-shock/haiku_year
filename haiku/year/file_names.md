@@ -22,9 +22,9 @@ shimo-no-ku 下の句 "lower phrase"\
 <comments: optional>\
 (URL)
 
-#  kireji ("cutting word") | 切れ字
-Places of (virtual) kireji are very often marked by punctuation symbols,
-but not always.
+#  kireji ("cutting words") | 切れ字
+Places of (virtual) kireji are very often marked by pausing punctuation symbols,
+(like "--" or ":") but not always.
 
 # Drafts
 
