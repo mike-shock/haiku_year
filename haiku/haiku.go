@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -29,6 +30,7 @@ type Haiku struct { // 俳句
 	variant string // 変異体: DRAFT .. FINAL
 	version int    // 稿
 }
+type Verses []Haiku // 詩
 
 var (
 	EmptyDateError    = errors.New("empty date")
@@ -58,22 +60,26 @@ func iota2string(i int) (s string) { // 号を文に化
 	return s
 }
 
-func Today() (today []Haiku) { // 今日
+func Today() (list Verses) { // 今日
 	kyou := time.Now().Format("2006-01-02")
-	today, err := ThisDay(kyou)
-	if err != nil {
-		//log.Printf("Today(): %v", err)
+	list, _ = loadHaiku(kyou) // ThisDay(kyou)
+	//if err != nil {
+	//log.Printf("Today(): %v", err)
+	//}
+	for _, h := range list {
+		h.print()
 	}
-	return today
+	return list
 }
 
-func ThisDay(date string) (haiku []Haiku, err error) { // この日
+func ThisDay(date string) (haiku Verses, err error) { // この日
 	haiku, err = loadHaiku(date)
 	if err != nil || len(haiku) == 0 {
 		haiku, err = loadHaiku("0000-00-00") // substitute = 代わり
 	}
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	rng.Shuffle(len(haiku), func(i, j int) { haiku[i], haiku[j] = haiku[j], haiku[i] })
+	fmt.Printf("ThisDay(): %v", haiku)
 	return haiku, err
 }
 
@@ -130,8 +136,14 @@ func (h *Haiku) splitText(content string) { // 本書を分
 	h.comment = findComment(content)
 }
 
-func loadHaiku(date string) (list []Haiku, err error) { // 俳句を引
-	list = []Haiku{}
+func (v Verses) sort() {
+	sort.Slice(v, func(i, j int) bool {
+		return v[i].variant < v[j].variant
+	})
+}
+
+func loadHaiku(date string) (list Verses, err error) { // 俳句を引
+	list = Verses{}
 	err = checkDate(date)
 	if err != nil {
 		return list, err
@@ -236,7 +248,7 @@ func checkDate(date string) (err error) { // 日付を質す
 }
 
 func findDate(content string) (day, month, year string) { // 日付を探す
-	re := regexp.MustCompile(`{(\d+)[.](\d+)[.](\d+)}`)
+	re := regexp.MustCompile(`{(\d+)[.](\d+)[.](\d+)}`) // {DD.MM.YYYY}
 	matches := re.FindStringSubmatch(content)
 	if len(matches) == 4 {
 		day = matches[1]
@@ -247,7 +259,7 @@ func findDate(content string) (day, month, year string) { // 日付を探す
 }
 
 func findAuthor(content string) (author string) { // 詩人を探す
-	re := regexp.MustCompile(`\[([^[]+)\]`)
+	re := regexp.MustCompile(`\[([^[]+)\]`) // [Author]
 	matches := re.FindStringSubmatch(content)
 	if len(matches) == 2 {
 		author = matches[1]
@@ -259,7 +271,7 @@ func findAuthor(content string) (author string) { // 詩人を探す
 }
 
 func findComment(content string) (comment string) { // 言い草を探す
-	re := regexp.MustCompile(`<([^>]+)>`)
+	re := regexp.MustCompile(`<([^>]+)>`) // <Comment>
 	matches := re.FindStringSubmatch(content)
 	if len(matches) == 2 {
 		comment = matches[1]
@@ -269,6 +281,9 @@ func findComment(content string) (comment string) { // 言い草を探す
 
 func findVariant(fileName string) (variant string, version int) { //  変異体を探す
 	dateAndVersion := strings.Split(fileName, "_")
+	if len(dateAndVersion) == 1 {
+		return iota2string(FINAL), 0
+	}
 	if len(dateAndVersion) == 2 {
 		n := strings.Replace(dateAndVersion[1], ".txt", "", -1)
 		v, err := strconv.Atoi(n)
@@ -276,32 +291,11 @@ func findVariant(fileName string) (variant string, version int) { //  変異体�
 			version = v
 		}
 	}
-	if strings.Contains(fileName, "-") {
-		if version == 0 {
-			variant = iota2string(FINAL)
-		} else {
-			variant = iota2string(ALTERNATIVE)
-		}
+	if strings.Contains(fileName, "-") { // MM-DD_V.txt
+		variant = iota2string(ALTERNATIVE)
 	}
-	if strings.Contains(fileName, "~") {
+	if strings.Contains(fileName, "~") { // MM~DD_V.txt
 		variant = iota2string(DRAFT)
 	}
 	return variant, version
 }
-
-/*
-func substitute(date string) (unwritten []Haiku, err error) { // 代わり
-
-		unwritten = []Haiku{}
-		h, err := readHaiku("0000-00-00", fullFileName("00", "00-00.txt"))
-		if err != nil {
-			log.Printf("pretext: %v", err)
-		}
-		if err == nil {
-			unwritten = append(unwritten, *h)
-			ymd := strings.Split(date, "-")
-			unwritten[0].year, unwritten[0].month, unwritten[0].day = ymd[0], ymd[1], ymd[2]
-		}
-		return unwritten, err
-	}
-*/
