@@ -139,11 +139,13 @@ func setHaiku() *fyne.Container {
 	backDayButton := widget.NewButtonWithIcon("", theme.MediaSkipPreviousIcon(), backDay)
 	todayButton := widget.NewButtonWithIcon("", theme.MediaRecordIcon(), nowDay)
 	nextDayButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nextDay)
+	countLabel := widget.NewLabel(fmt.Sprintf("%d", len(todayHaiku)))
 	moreButton := widget.NewButton("...", nextVerse)
 	navigationButtons := container.NewHBox(
 		backDayButton, todayButton, nextDayButton, layout.NewSpacer(),
 	)
 	if len(todayHaiku) > 1 {
+		navigationButtons.Add(countLabel)
 		navigationButtons.Add(moreButton)
 	} else {
 		navigationButtons.Add(layout.NewSpacer())

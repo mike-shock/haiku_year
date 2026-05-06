@@ -63,12 +63,8 @@ func iota2string(i int) (s string) { // 号を文に化
 func Today() (list Verses) { // 今日
 	kyou := time.Now().Format("2006-01-02")
 	list, _ = loadHaiku(kyou) // ThisDay(kyou)
-	//if err != nil {
-	//log.Printf("Today(): %v", err)
-	//}
-	for _, h := range list {
-		h.print()
-	}
+	list.sort()
+	//list.print()
 	return list
 }
 
@@ -77,9 +73,8 @@ func ThisDay(date string) (haiku Verses, err error) { // この日
 	if err != nil || len(haiku) == 0 {
 		haiku, err = loadHaiku("0000-00-00") // substitute = 代わり
 	}
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	rng.Shuffle(len(haiku), func(i, j int) { haiku[i], haiku[j] = haiku[j], haiku[i] })
-	fmt.Printf("ThisDay(): %v", haiku)
+	//haiku.shuffle()
+	//haiku.print()
 	return haiku, err
 }
 
@@ -136,10 +131,21 @@ func (h *Haiku) splitText(content string) { // 本書を分
 	h.comment = findComment(content)
 }
 
+func (v Verses) print() {
+	for i := 0; i < len(v); i++ {
+		v[i].print()
+	}
+}
+
 func (v Verses) sort() {
 	sort.Slice(v, func(i, j int) bool {
-		return v[i].variant < v[j].variant
+		return v[i].variant > v[j].variant
 	})
+}
+
+func (v Verses) shuffle() {
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	rng.Shuffle(len(v), func(i, j int) { v[i], v[j] = v[j], v[i] })
 }
 
 func loadHaiku(date string) (list Verses, err error) { // 俳句を引
