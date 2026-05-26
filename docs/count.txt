@@ -194,3 +194,9 @@
 	Now: 214
 	Variants: 306
 	Left: 153
+
+2026-05-26:
+	Days: 367
+	Now: 218
+	Variants: 310
+	Left: 149
