@@ -242,3 +242,15 @@
 	Now: 229
 	Variants: 323
 	Left: 138
+
+2026-06-23:
+	Days: 367
+	Now: 230
+	Variants: 324
+	Left: 137
+
+2026-06-26:
+	Days: 367
+	Now: 232
+	Variants: 326
+	Left: 135
