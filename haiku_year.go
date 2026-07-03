@@ -287,7 +287,7 @@ func nextDay() {
 	tabs.Select(tabHaiku)
 }
 
-func thisDay() {
+func thisDay() { // 今日の俳句
 	currentDate = fmt.Sprintf(formatDate, currentYear, currentMonth, currentDay)
 	todayHaikuIndex = 0
 	tabHaiku.Content = setHaiku()
