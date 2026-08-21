@@ -1,6 +1,6 @@
 module haiku_year
 
-go 1.26.3
+go 1.27.0
 
 replace haiku_year/haiku => ./haiku
 

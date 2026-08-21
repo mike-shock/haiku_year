@@ -314,3 +314,9 @@
 	Now: 245
 	Variants: 339
 	Left: 122
+
+2026-08-21:
+	Days: 367
+	Now: 246
+	Variants: 340
+	Left: 121
