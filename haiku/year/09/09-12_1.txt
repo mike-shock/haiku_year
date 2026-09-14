@@ -1,0 +1,13 @@
+В День программиста
+подсчитал, на скольких я
+языках писал.
+
+{12.09.2016}
+<Assembler, PL/1, Fortran,
+JCL, Cobol, bash, cmd,
+C, C++, Pascal, Modula-2, Oberon,
+FoxPro, SQL,
+Javascript, Perl, Java,
+Python, PHP,
+Ruby, Kotlin, Go
+@ 2026-09-12>
