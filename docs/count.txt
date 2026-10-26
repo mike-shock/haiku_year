@@ -344,3 +344,15 @@
 	Now: 254
 	Variants: 349
 	Left: 113
+
+2026-10-08:
+	Days: 367
+	Now: 255
+	Variants: 350
+	Left: 112
+
+2026-10-26:
+	Days: 367
+	Now: 260
+	Variants: 357
+	Left: 107
